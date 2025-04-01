@@ -1,21 +1,22 @@
 <?php
 $servername = "localhost";
-$username = "root"; // Change if necessary
-$password = ""; // Change if necessary
-$database = "login_register"; // Change to your database name
+$username = "root";
+$password = "";
+$database = "login_register";
 
 // Connect to MySQL
 $conn = new mysqli($servername, $username, $password, $database);
-
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Fetch products
-$sql = "SELECT * FROM products";
+// Fetch Products
+$sql = "SELECT id, name, COALESCE(image_url, 'https://example.com/default.jpg') AS image, 
+               discount, rating, description, original_price, current_price 
+        FROM products";
 $result = $conn->query($sql);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -119,32 +120,42 @@ $result = $conn->query($sql);
 </header>
 
 
-    <section class="products" id="products">
+<section class="products" id="products">
     <h3 class="productH">Featured Products</h3>
     <div class="product-grid">
         <?php while ($product = $result->fetch_assoc()) { ?>
             <div class="product-card">
                 <div class="product-image">
-                    <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
-                    <span class="discount"><?php echo $product['discount']; ?></span>
+                    <img src="<?php echo !empty($product['image']) ? htmlspecialchars($product['image'], ENT_QUOTES, 'UTF-8') : 'images/default.jpg'; ?>" 
+                         class="card-img-top" 
+                         alt="<?php echo htmlspecialchars($product['name'] ?? 'Product Image', ENT_QUOTES, 'UTF-8'); ?>">
+                    
+                    <?php if (!empty($product['discount'])): ?>
+                        <span class="discount"><?php echo htmlspecialchars($product['discount']); ?> OFF</span>
+                    <?php endif; ?>
                 </div>
-                <h4><?php echo $product['name']; ?></h4>
-                <div class="rating"><?php echo $product['rating']; ?></div>
-                <p class="description"><?php echo $product['description']; ?></p>
+                
+                <h4><?php echo htmlspecialchars($product['name']); ?></h4>
+                <div class="rating"><?php echo htmlspecialchars($product['rating'] ?? 'No rating'); ?></div>
+                <p class="description"><?php echo htmlspecialchars($product['description'] ?? ''); ?></p>
+                
                 <div class="price-container">
-                    <span class="original-price"><?php echo $product['original_price']; ?></span>
-                    <span class="current-price"><?php echo $product['current_price']; ?></span>
+                    <span class="original-price"><?php echo htmlspecialchars($product['original_price'] ?? ''); ?></span>
+                    <span class="current-price"><?php echo htmlspecialchars($product['current_price'] ?? ''); ?></span>
                 </div>
+                
                 <div class="quantity">
                     <button class="qty-btn">-</button>
                     <input type="number" value="1" min="1">
                     <button class="qty-btn">+</button>
                 </div>
+                
                 <button class="buy-btn">Add to Cart</button>
             </div>
         <?php } ?>
     </div>
 </section>
+
     <!-- Footer -->
      <!-- Add this cart HTML just before the footer -->
 <div class="cart-overlay"></div>
