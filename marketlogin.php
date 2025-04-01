@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // If Valid, Check Credentials
     if ($isValid) {
-        $sql = "SELECT * FROM user WHERE Email = ?";
+        $sql = "SELECT * FROM user WHERE email = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $email);
         $stmt->execute();
@@ -47,12 +47,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
-            if (password_verify($password, $row['Password'])) {
+            if (password_verify($password, $row['password'])) {
                 // ✅ Set session variables
                 $_SESSION['user_id'] = $row['id'];
-                $_SESSION['fullname'] = $row['Full_Name'];
-                $_SESSION['email'] = $row['Email'];
+                $_SESSION['first_name'] = $row['first_name'];
+                $_SESSION['last_name'] = $row['last_Nnme'];
+                $_SESSION['email'] = $row['email'];
                 $_SESSION['loggedin'] = true;  // ✅ Required for login/logout button
+
+                setcookie("user_id", $row['id'], time() + (86400 * 30), "/"); // 86400 = 1 day
+                setcookie("login-status", "true", time() + (86400 * 30), "/"); // 86400 = 1 day
+
+                session_regenerate_id(true);
 
                 header("Location: marketplace.php"); // Redirect to marketplace
                 exit();
@@ -65,6 +71,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->close();
     }
 }
+
+
 
 $conn->close();
 ?>
