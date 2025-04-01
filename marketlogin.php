@@ -2,10 +2,10 @@
 session_start();
 
 // Database Connection
-$servername = "localhost";
+$servername = "127.0.0.1";
 $username = "root";
 $password_db = "";  
-$database = "login_register";
+$database = "int219";
 
 $conn = new mysqli($servername, $username, $password_db, $database);
 if ($conn->connect_error) {
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // If Valid, Check Credentials
     if ($isValid) {
-        $sql = "SELECT * FROM users WHERE Email = ?";
+        $sql = "SELECT * FROM user WHERE Email = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("s", $email);
         $stmt->execute();

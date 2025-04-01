@@ -35,9 +35,8 @@ $sql = "CREATE TABLE IF NOT EXISTS user (
   `id` int NOT NULL AUTO_INCREMENT,
   `username` varchar(255) NOT NULL,
   `password` text NOT NULL,
-  `first_name` decimal(10,0) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
   `last_name` varchar(255) NOT NULL,
-  `telephone` int NOT NULL,
   `email` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)

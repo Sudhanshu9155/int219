@@ -1,9 +1,9 @@
 <?php
 // Database Connection
-$servername = "localhost";
+$servername = "127.0.0.1";
 $username = "root";
 $password_db = "";  
-$database = "login_register";
+$database = "int219";
 
 $conn = new mysqli($servername, $username, $password_db, $database);
 if ($conn->connect_error) {
@@ -11,12 +11,13 @@ if ($conn->connect_error) {
 }
 
 // Initialize Variables
-$fullname = $email = $password = $repassword = "";
+$firstname = $lastname = $email = $password = $repassword = "";
 $fullnameErr = $emailErr = $passwordErr = $repasswordErr = $generalErr = "";
 
 // Process Form Submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fullname = trim($_POST["fullname"]);
+    $firstname = trim($_POST["firstname"]);
+    $lastname = trim($_POST["lastname"]);
     $email = trim($_POST["email"]);
     $password = trim($_POST["password"]);
     $repassword = trim($_POST["repassword"]);
@@ -24,7 +25,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $isValid = true;
 
     // Full Name Validation
-    if (empty($fullname)) {
+    if (empty($firstname)) {
+        $fullnameErr = "Full Name is required.";
+        $isValid = false;
+    }
+    if (empty($lastname)) {
         $fullnameErr = "Full Name is required.";
         $isValid = false;
     }
@@ -38,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $isValid = false;
     } else {
         // Check if Email Exists
-        $sql_check = "SELECT * FROM users WHERE Email = ?";
+        $sql_check = "SELECT * FROM user WHERE email = ?";
         $stmt_check = $conn->prepare($sql_check);
         $stmt_check->bind_param("s", $email);
         $stmt_check->execute();
@@ -70,9 +75,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // If Valid, Insert Data
     if ($isValid) {
-        $sql = "INSERT INTO users (Full_Name, Email, Password) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO user (username, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $fullname, $email, $password_hash);
+        $stmt->bind_param("sssss", $email, $firstname, $lastname, $email, $password_hash);
 
         if ($stmt->execute()) {
             header("refresh:0; url=marketlogin.php");
@@ -379,8 +384,12 @@ $conn->close();
 
           <form action="marketreg.php" method="post">
             <div class="input-area">
-              <input type="text" placeholder="John Doe" name="fullname" />
-              <span>Full Name</span>
+              <input type="text" placeholder="John" name="firstname" />
+              <span>First Name</span>
+            </div>
+            <div class="input-area">
+              <input type="text" placeholder="Doe" name="lastname" />
+              <span>Last Name</span>
             </div>
             <span class="error"><?php echo $fullnameErr; ?></span>
             <div class="input-area">

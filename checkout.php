@@ -7,10 +7,10 @@ session_start();
 $servername = "127.0.0.1";
 $username = "root";
 $password_db = "";  
-$database = "orders";
+$database = "int219";
 
 // Create connection
-$conn = new mysqli($servername, $username, $password_db, $database, 3306);
+$conn = new mysqli($servername, $username, $password_db, $database);
 
 // Check connection
 if ($conn->connect_error) {
@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $order_date = date("Y-m-d H:i:s");
         
         // Insert order into database
-        $sql = "INSERT INTO orders (first_name, last_name, email, address, city, zip, order_date, subtotal, tax, shipping, total_amount) 
+        $sql = "INSERT INTO order_details (first_name, last_name, email, address, city, zip, order_date, subtotal, tax, shipping, total_amount) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt = $conn->prepare($sql);
@@ -85,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $order_id = $conn->insert_id;
             
             // Insert order items
-            $item_sql = "INSERT INTO order_items (order_id, product_id, product_name, quantity, price) 
+            $item_sql = "INSERT INTO order_items (order_id, product_id, quantity, price) 
                         VALUES (?, ?, ?, ?, ?)";
             
             $item_stmt = $conn->prepare($item_sql);
@@ -118,7 +118,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <?php include("header.php");?>
-    <?php include("sql.php");?>
     <h2 class="text-center w-full mt-[50px] text-[40px]">Checkout</h2>
     <div class="flex p-[100px] pt-[30px] gap-[50px]" id="container">
         <div class="w-50 flex-auto " id="left">
