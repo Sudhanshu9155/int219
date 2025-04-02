@@ -26,7 +26,7 @@ body {
     width: 75px;
     margin-top: 10px;
     height: 60px;
-    mix-blend-mode: normal;
+    mix-blend-mode: multiply;
 }
 
 .nav-links {

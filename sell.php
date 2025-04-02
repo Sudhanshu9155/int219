@@ -25,7 +25,7 @@
                 <li><a href="marketplace.php">Home</a></li>
                 <li><a href="#products">Products</a></li>
                 <li><a href="sell.php">Sell</a></li>
-                <li><a href="contact1.html">Contact</a></li>
+                <li><a href="contact1.php">Contact</a></li>
             </ul>
             <div class="auth-buttons">
                 <button class="btn login">Login/SignUp</button>
@@ -72,7 +72,18 @@ if (isset($_GET['success']) && $_GET['success'] == "1") {
     </div>
 </section>
 
-
+<div class="cart">
+    <div class="cart-header">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <h3>Your Cart (<span id="cart-count">0</span>)</h3>
+        <button class="close-cart">&times;</button>
+    </div>
+    <div class="cart-items"></div>
+    <form class="cart-total"  method="POST"  action="checkout.php">
+        <h4>Total: ₹<span id="cart-total">0</span></h4>
+        <button class="checkout-btn">Proceed to Checkout</button>
+            </form>
+</div>
 
     <div class="cart-icon">
         <i style="color: purple" class="fa-solid fa-cart-shopping"></i><span class="cart-counter">0</span>

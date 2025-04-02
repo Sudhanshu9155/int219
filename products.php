@@ -90,7 +90,7 @@ $result = $conn->query($sql);
             <li><a href="marketplace.php">Home</a></li>
             <li><a href="products.php">Products</a></li>
             <li><a href="sell.php">Sell</a></li>
-            <li><a href="contact1.html">Contact</a></li>
+            <li><a href="contact1.php">Contact</a></li>
         </ul>
         <div class="auth-buttons">
             <?php if (!$loggedin): ?>
@@ -158,18 +158,17 @@ $result = $conn->query($sql);
 
     <!-- Footer -->
      <!-- Add this cart HTML just before the footer -->
-<div class="cart-overlay"></div>
-<div class="cart">
+     <div class="cart">
     <div class="cart-header">
         <i class="fa-solid fa-cart-shopping"></i>
         <h3>Your Cart (<span id="cart-count">0</span>)</h3>
         <button class="close-cart">&times;</button>
     </div>
     <div class="cart-items"></div>
-    <div class="cart-total">
+    <form class="cart-total"  method="POST"  action="checkout.php">
         <h4>Total: ₹<span id="cart-total">0</span></h4>
         <button class="checkout-btn">Proceed to Checkout</button>
-    </div>
+            </form>
 </div>
 
 <!-- Add this popup div at the end of body -->
