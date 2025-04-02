@@ -49,7 +49,7 @@ if ($conn->query($sql) === FALSE) {
 
 $sql = "CREATE TABLE IF NOT EXISTS `user_address` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) NOT NULL,
+  `user_id` int NOT NULL,
   `address_line1` varchar(255) NOT NULL,
   `address_line2` varchar(255),
   `city` varchar(255) NOT NULL,
@@ -57,7 +57,7 @@ $sql = "CREATE TABLE IF NOT EXISTS `user_address` (
   `country` varchar(255) NOT NULL,
   `telephone` varchar(20),
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`username`) REFERENCES `user` (`username`)
+  FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
 )";
 
 if ($conn->query($sql) === FALSE) {
