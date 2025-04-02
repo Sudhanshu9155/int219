@@ -1,8 +1,6 @@
 
 <?php
 
-session_start();
-
 // Database connection
 $servername = "127.0.0.1";
 $username = "root";
@@ -17,7 +15,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-
+session_start();
 
 // Initialize variables
 $total = 0;
