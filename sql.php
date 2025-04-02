@@ -49,7 +49,7 @@ if ($conn->query($sql) === FALSE) {
 
 $sql = "CREATE TABLE IF NOT EXISTS `user_address` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
+  `username` varchar(255) NOT NULL,
   `address_line1` varchar(255) NOT NULL,
   `address_line2` varchar(255),
   `city` varchar(255) NOT NULL,
@@ -57,24 +57,24 @@ $sql = "CREATE TABLE IF NOT EXISTS `user_address` (
   `country` varchar(255) NOT NULL,
   `telephone` varchar(20),
   PRIMARY KEY (`id`),
-  FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+  FOREIGN KEY (`username`) REFERENCES `user` (`username`)
 )";
 
 if ($conn->query($sql) === FALSE) {
     die("Error creating user table: " . $conn->error);
 }
-$sql = "CREATE TABLE IF NOT EXISTS `user_payment` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` int NOT NULL,
-  `payment_type` varchar(50) NOT NULL,
-  `provider` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-)";
+// $sql = "CREATE TABLE IF NOT EXISTS `user_payment` (
+//   `id` int NOT NULL AUTO_INCREMENT,
+//   `user_id` int NOT NULL,
+//   `payment_type` varchar(50) NOT NULL,
+//   `provider` varchar(100) NOT NULL,
+//   PRIMARY KEY (`id`),
+//   FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+// )";
 
-if ($conn->query($sql) === FALSE) {
-    die("Error creating user table: " . $conn->error);
-}
+// if ($conn->query($sql) === FALSE) {
+//     die("Error creating user table: " . $conn->error);
+// }
 //  -- Product tables 
 $sql = "CREATE TABLE IF NOT EXISTS `product_category` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -101,21 +101,6 @@ if ($conn->query($sql) === FALSE) {
     die("Error creating user table: " . $conn->error);
 }
 
-// $sql = "CREATE TABLE IF NOT EXISTS `discount` (
-//   `id` int NOT NULL AUTO_INCREMENT,
-//   `name` varchar(255) NOT NULL,
-//   `desc` text,
-//   `discount_percent` decimal(10,2) NOT NULL,
-//   `active` boolean NOT NULL DEFAULT TRUE,
-//   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-//   `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-//   `deleted_at` timestamp NULL DEFAULT NULL,
-//   PRIMARY KEY (`id`)
-// )";
-
-// if ($conn->query($sql) === FALSE) {
-//     die("Error creating user table: " . $conn->error);
-// }
 
 $sql = "CREATE TABLE IF NOT EXISTS `product` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -137,36 +122,6 @@ $sql = "CREATE TABLE IF NOT EXISTS `product` (
 if ($conn->query($sql) === FALSE) {
     die("Error creating user table: " . $conn->error);
 }
-
-// <!-- -- Shopping and Order tables -->
-$sql = "CREATE TABLE IF NOT EXISTS `shopping_session` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(255) NOT NULL,
-  `total` decimal(10,2) NOT NULL DEFAULT 0.00,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-)";
-
-if ($conn->query($sql) === FALSE) {
-    die("Error creating user table: " . $conn->error);
-}
-
-// $sql = "CREATE TABLE IF NOT EXISTS `cart_item` (
-//   `id` int NOT NULL AUTO_INCREMENT,
-//   `session_id` int NOT NULL,
-//   `product_id` int NOT NULL,
-//   `quantity` int NOT NULL,
-//   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-//   `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-//   PRIMARY KEY (`id`),
-//   FOREIGN KEY (`session_id`) REFERENCES `shopping_session` (`id`),
-//   FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
-// )";
-
-// if ($conn->query($sql) === FALSE) {
-//     die("Error creating user table: " . $conn->error);
-// }
 
 $sql = "CREATE TABLE IF NOT EXISTS `order_details` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -222,7 +177,7 @@ if ($conn->error) {
     die("Error adding foreign key: " . $conn->error);
 }
 
-// echo "Database and tables created successfully";
+echo "Database and tables created successfully";
 $conn->close();
 }
 ?>
