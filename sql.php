@@ -76,30 +76,30 @@ if ($conn->query($sql) === FALSE) {
 //     die("Error creating user table: " . $conn->error);
 // }
 //  -- Product tables 
-$sql = "CREATE TABLE IF NOT EXISTS `product_category` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `desc` text,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`)
-)";
+// $sql = "CREATE TABLE IF NOT EXISTS `product_category` (
+//   `id` int NOT NULL AUTO_INCREMENT,
+//   `name` varchar(255) NOT NULL,
+//   `desc` text,
+//   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+//   `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+//   PRIMARY KEY (`id`)
+// )";
 
-if ($conn->query($sql) === FALSE) {
-    die("Error creating user table: " . $conn->error);
-}
+// if ($conn->query($sql) === FALSE) {
+//     die("Error creating user table: " . $conn->error);
+// }
 
-$sql = "CREATE TABLE IF NOT EXISTS `product_inventory` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `quantity` int NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
-)";
-if ($conn->query($sql) === FALSE) {
-    die("Error creating user table: " . $conn->error);
-}
+// $sql = "CREATE TABLE IF NOT EXISTS `product_inventory` (
+//   `id` int NOT NULL AUTO_INCREMENT,
+//   `quantity` int NOT NULL,
+//   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+//   `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+//   `deleted_at` timestamp NULL DEFAULT NULL,
+//   PRIMARY KEY (`id`)
+// )";
+// if ($conn->query($sql) === FALSE) {
+//     die("Error creating user table: " . $conn->error);
+// }
 
 
 $sql = "CREATE TABLE IF NOT EXISTS `product` (
@@ -108,15 +108,14 @@ $sql = "CREATE TABLE IF NOT EXISTS `product` (
   `desc` text,
   `SKU` varchar(50) NOT NULL,
   `category` varchar(255) NOT NULL,
-  -- `inventory_id` int NOT NULL,
-  `price` decimal(10,2) NOT NULL,
+  `cost_price` decimal(10,2) NOT NULL,
+  `selling_price` decimal(10,2) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  FOREIGN KEY (`category_id`) REFERENCES `product_category` (`id`),
-  FOREIGN KEY (`inventory_id`) REFERENCES `product_inventory` (`id`),
-  FOREIGN KEY (`discount_id`) REFERENCES `discount` (`id`)
+  PRIMARY KEY (`id`)
+  -- FOREIGN KEY (`category_id`) REFERENCES `product_category` (`id`),
+  -- FOREIGN KEY (`inventory_id`) REFERENCES `product_inventory` (`id`)
 )";
 
 if ($conn->query($sql) === FALSE) {
