@@ -165,7 +165,6 @@ if (!$result) {
                     <input type="number" value="1" min="1">
                     <button class="qty-btn">+</button>
                 </div>
-                
                 <button class="buy-btn">Add to Cart</button>
             </div>
         <?php } ?>
