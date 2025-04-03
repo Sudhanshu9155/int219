@@ -12,7 +12,7 @@ if(in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
 
 $servername = "127.0.0.1";
 $username = "root";
-$password = ""; // Usually empty for XAMPP
+$password = "";
 $dbname = "int219";
 
 // Create connection without specifying database
