@@ -1,23 +1,28 @@
-<?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "login_register";
+<?php 
+$servername = "127.0.0.1"; 
+$username = "root"; 
+$password = ""; 
+$database = "int219";  
 
 // Connect to MySQL
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($servername, $username, $password, $database); 
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+    die("Connection failed: " . $conn->connect_error); 
+}  
 
-// Fetch Products
-$sql = "SELECT id, name, COALESCE(image_url, 'https://example.com/default.jpg') AS image, 
-               discount, rating, description, original_price, current_price 
-        FROM products";
+// Fetch Products based on the table structure
+$sql = "SELECT id, name, COALESCE(image_url, 'https://example.com/default.jpg') AS image,
+               category, `desc` AS description, cost_price AS original_price, 
+               selling_price AS current_price, created_at
+        FROM product 
+        WHERE deleted_at IS NULL"; 
 $result = $conn->query($sql);
+
+// Check if query was successful
+if (!$result) {
+    die("Query failed: " . $conn->error);
+}
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -123,25 +128,36 @@ $result = $conn->query($sql);
 <section class="products" id="products">
     <h3 class="productH">Featured Products</h3>
     <div class="product-grid">
-        <?php while ($product = $result->fetch_assoc()) { ?>
+        <?php while ($product = $result->fetch_assoc()) { 
+            // Calculate discount percentage
+            $original_price = floatval($product['original_price'] ?? 0);
+            $current_price = floatval($product['current_price'] ?? 0);
+            $discount_percentage = 0;
+            
+            if ($original_price > 0 && $current_price < $original_price) {
+                $discount_percentage = round(100 - ($current_price / $original_price * 100));
+            }
+        ?>
             <div class="product-card">
                 <div class="product-image">
-                    <img src="<?php echo !empty($product['image']) ? htmlspecialchars($product['image'], ENT_QUOTES, 'UTF-8') : 'images/default.jpg'; ?>" 
-                         class="card-img-top" 
-                         alt="<?php echo htmlspecialchars($product['name'] ?? 'Product Image', ENT_QUOTES, 'UTF-8'); ?>">
+                    <img src="<?php echo !empty($product['image']) ? htmlspecialchars($product['image'], ENT_QUOTES, 'UTF-8') : 'images/default.jpg'; ?>"
+                          class="card-img-top"
+                          alt="<?php echo htmlspecialchars($product['name'] ?? 'Product Image', ENT_QUOTES, 'UTF-8'); ?>">
                     
-                    <?php if (!empty($product['discount'])): ?>
-                        <span class="discount"><?php echo htmlspecialchars($product['discount']); ?> OFF</span>
+                    <?php if ($discount_percentage > 0): ?>
+                        <span class="discount"><?php echo htmlspecialchars($discount_percentage); ?>% OFF</span>
                     <?php endif; ?>
                 </div>
                 
                 <h4><?php echo htmlspecialchars($product['name']); ?></h4>
-                <div class="rating"><?php echo htmlspecialchars($product['rating'] ?? 'No rating'); ?></div>
+                
+                <div class="category"><?php echo htmlspecialchars($product['category'] ?? 'Uncategorized'); ?></div>
+                
                 <p class="description"><?php echo htmlspecialchars($product['description'] ?? ''); ?></p>
                 
                 <div class="price-container">
-                    <span class="original-price"><?php echo "₹". htmlspecialchars($product['original_price'] ?? ''); ?></span>
-                    <span class="current-price"><?php echo "₹". htmlspecialchars($product['current_price'] ?? ''); ?></span>
+                    <span class="original-price">₹<?php echo htmlspecialchars(number_format($original_price, 2)); ?></span>
+                    <span class="current-price">₹<?php echo htmlspecialchars(number_format($current_price, 2)); ?></span>
                 </div>
                 
                 <div class="quantity">
