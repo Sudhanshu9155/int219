@@ -12,7 +12,7 @@ if(in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
 
 $servername = "127.0.0.1";
 $username = "root";
-$password = ""; // Usually empty for XAMPP
+$password = "";
 $dbname = "int219";
 
 // Create connection without specifying database
@@ -110,7 +110,7 @@ $sql = "CREATE TABLE IF NOT EXISTS `product` (
   `category` varchar(255) NOT NULL,
   `cost_price` decimal(10,2) NOT NULL,
   `selling_price` decimal(10,2) NOT NULL,
-  `image_url` VARCHAR(255) DEFAULT NOT NULL,
+  `image_url` VARCHAR(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `modified_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` timestamp NULL DEFAULT NULL,
