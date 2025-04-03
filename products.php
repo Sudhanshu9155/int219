@@ -140,8 +140,8 @@ $result = $conn->query($sql);
                 <p class="description"><?php echo htmlspecialchars($product['description'] ?? ''); ?></p>
                 
                 <div class="price-container">
-                    <span class="original-price"><?php echo htmlspecialchars($product['original_price'] ?? ''); ?></span>
-                    <span class="current-price"><?php echo htmlspecialchars($product['current_price'] ?? ''); ?></span>
+                    <span class="original-price"><?php echo "₹". htmlspecialchars($product['original_price'] ?? ''); ?></span>
+                    <span class="current-price"><?php echo "₹". htmlspecialchars($product['current_price'] ?? ''); ?></span>
                 </div>
                 
                 <div class="quantity">
