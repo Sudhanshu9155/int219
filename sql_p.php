@@ -62,6 +62,9 @@ $sql = "INSERT IGNORE INTO product (name, image_url, category, `desc`, cost_pric
 ('Captain 250', 'https://img3.exportersindia.com/product_images/bc-full/2021/12/9692948/captain-250-di-25-hp-4wd-tractor-1640001210-6124232.jpeg', 'Tractor', '25HP, 2WD, Affordable', 270000, 229500),  
 ('LandForce 254', 'https://i.ytimg.com/vi/gvED9VZ5scg/maxresdefault.jpg', 'Tractor', '25HP, 4WD, Rugged Design', 350000, 322000);  
 ";
+if ($conn->query($sql) === FALSE) {
+    die("Error creating user table: " . $conn->error);
+}
 
 $conn->close();
 }
