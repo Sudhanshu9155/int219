@@ -177,7 +177,7 @@ if ($conn->error) {
     die("Error adding foreign key: " . $conn->error);
 }
 
-echo "Database and tables created successfully";
+// echo "Database and tables created successfully";
 $conn->close();
 }
 ?>

@@ -138,7 +138,7 @@ if (!$result) {
                 $discount_percentage = round(100 - ($current_price / $original_price * 100));
             }
         ?>
-            <div class="product-card">
+            <div class="product-card" onclick="window.location.href='single_product.php?id=<?php echo $product['id']; ?>';" style="cursor: pointer;">
                 <div class="product-image">
                     <img src="<?php echo !empty($product['image']) ? htmlspecialchars($product['image'], ENT_QUOTES, 'UTF-8') : 'images/default.jpg'; ?>"
                           class="card-img-top"
@@ -160,13 +160,13 @@ if (!$result) {
                     <span class="current-price">₹<?php echo htmlspecialchars(number_format($current_price, 2)); ?></span>
                 </div>
                 
-                <div class="quantity">
-                    <button class="qty-btn">-</button>
-                    <input type="number" value="1" min="1">
-                    <button class="qty-btn">+</button>
+                <!-- <div class="quantity">
+                <button class="qty-btn" onclick="event.stopPropagation();">-</button>
+                    <input type="number" value="1" min="1" onclick="event.stopPropagation();">
+                    <button class="qty-btn" onclick="event.stopPropagation();">+</button>
+                </div> -->
+                    <button class="buy-btn" onclick="event.stopPropagation(); addToCart(<?php echo $product['id']; ?>);">Add to Cart</button>
                 </div>
-                <button class="buy-btn">Add to Cart</button>
-            </div>
         <?php } ?>
     </div>
 </section>
