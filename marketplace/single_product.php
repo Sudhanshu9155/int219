@@ -125,7 +125,7 @@ if ($original_price > 0 && $current_price < $original_price) {
     </div>
     
     <!-- Include your footer -->
-    <?php include 'footer.php'; ?>
+    <?php include '../footer.php'; ?>
     
     <script>
         // Script to handle quantity buttons
