@@ -145,7 +145,5 @@ if (!$result) {
 
 <?php include '../footer.php'; ?>
 
-    <script src="script.js"></script>
-    <script src="market.js"></script>
 </body>
 </html>

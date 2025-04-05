@@ -10,26 +10,19 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check if product ID is provided
 if (!isset($_GET['id']) || empty($_GET['id'])) {
-    header('Location: index.php');
+    header('Location: product.php');
     exit;
 }
 
 // Get product ID and sanitize it
 $product_id = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
-// Make sure we have a valid connection
-if (!isset($conn) || $conn->connect_error) {
-    // Attempt to reconnect if connection is closed
-    include 'sql.php';
-    
-    // Check if reconnection worked
-    if (!isset($conn) || $conn->connect_error) {
-        die("Database connection failed: " . ($conn->connect_error ?? "Connection object is not available"));
-    }
-}
-
 // Prepare and execute query
-$stmt = $conn->prepare("SELECT * FROM product WHERE id = ?");
+$stmt = $conn->prepare("SELECT id, name, COALESCE(image_url, 'https://example.com/default.jpg') AS image,
+               category, `desc` AS description, cost_price AS original_price, 
+               selling_price AS current_price, created_at
+        FROM product 
+        WHERE id = ?");
 if (!$stmt) {
     die("Prepare failed: " . $conn->error);
 }
@@ -39,7 +32,7 @@ $result = $stmt->get_result();
 
 // Check if product exists
 if ($result->num_rows === 0) {
-    header('Location: index.php');
+    header('Location: product.php');
     exit;
 }
 
@@ -115,7 +108,13 @@ if ($original_price > 0 && $current_price < $original_price) {
                         <button class="qty-btn">+</button>
                     </div>
                     
-                    <button class="buy-btn" onclick="addToCart(<?php echo $product['id']; ?>);">Add to Cart</button>
+                    <button class="buy-btn" onclick="addToCart(
+                    <?php echo $product['id']; ?>, 
+                    '<?php echo htmlspecialchars(addslashes($product['name'])); ?>', 
+                    <?php echo $product['current_price']; ?>, 
+                    '<?php echo htmlspecialchars($product['image'], ENT_QUOTES, 'UTF-8'); ?>', 
+                    document.getElementById('quantity').value
+                );">Add to Cart</button>
                     <button class="buy-now-btn">Buy Now</button>
                 </div>
             </div>
@@ -147,21 +146,23 @@ if ($original_price > 0 && $current_price < $original_price) {
         });
         
         // Function to add product to cart
-        function addToCart(productId) {
-            const quantity = document.getElementById('quantity').value;
-            // Add your cart logic here - could be AJAX call to add to cart or redirect
-            console.log(`Adding product ${productId} with quantity ${quantity} to cart`);
-            // Example AJAX call:
-            // fetch('add_to_cart.php', {
-            //     method: 'POST',
-            //     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-            //     body: `product_id=${productId}&quantity=${quantity}`
-            // })
-            // .then(response => response.json())
-            // .then(data => {
-            //     // Update cart UI or show notification
-            // });
-        }
+        // function addToCart(productId) {
+        //     const quantity = document.getElementById('quantity').value;
+        //     // Add your cart logic here - could be AJAX call to add to cart or redirect
+        //     console.log(`Adding product ${productId} with quantity ${quantity} to cart`);
+        //     // Example AJAX call:
+        //     // fetch('add_to_cart.php', {
+        //     //     method: 'POST',
+        //     //     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        //     //     body: `product_id=${productId}&quantity=${quantity}`
+        //     // })
+        //     // .then(response => response.json())
+        //     // .then(data => {
+        //     //     // Update cart UI or show notification
+        //     // });
+        // }
     </script>
+
+<script src="cart.js" defer></script>
 </body>
 </html>
