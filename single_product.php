@@ -6,19 +6,7 @@ $password = "";
 $dbname = "int219";
 
 // Create connection without specifying database
-$conn = new mysqli($servername, $username, $password);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-$sql = "CREATE DATABASE IF NOT EXISTS $dbname";
-if ($conn->query($sql) === FALSE) {
-    die("Error creating database: " . $conn->error);
-}
-
-$conn->select_db($dbname);
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check if product ID is provided
 if (!isset($_GET['id']) || empty($_GET['id'])) {
