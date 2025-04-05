@@ -115,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body>
-    <?php include("header.php");?>
+    <?php include("../header.php");?>
     <h2 class="text-center w-full mt-[50px] text-[40px]">Checkout</h2>
     <div class="flex p-[100px] pt-[30px] gap-[50px]" id="container">
         <div class="w-50 flex-auto " id="left">
@@ -465,6 +465,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
         </div>
     </div>
+
+    <?php include("../footer.php");?>
 </body>
 </html>
 

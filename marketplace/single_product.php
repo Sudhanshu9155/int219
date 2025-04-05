@@ -66,7 +66,7 @@ if ($original_price > 0 && $current_price < $original_price) {
 </head>
 <body>
     <!-- Include your header -->
-    <?php include 'header.php'; ?>
+    <?php include '../header.php'; ?>
     
     <div class="container">
         <div class="single-product">
