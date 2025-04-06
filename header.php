@@ -75,32 +75,88 @@
     }
     
     .search-bar {
-      flex-grow: 1;
-      max-width: 500px;
-      margin: 0 30px;
-      position: relative;
-    }
-    
-    .search-input {
-      width: 100%;
-      padding: 12px 15px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      font-size: 16px;
-    }
-    
-    .search-button {
-      position: absolute;
-      right: 0;
-      top: 0;
-      height: 100%;
-      width: 60px;
-      background-color: #111;
-      color: white;
-      border: none;
-      border-radius: 0 4px 4px 0;
-      cursor: pointer;
-    }
+  flex-grow: 1;
+  max-width: 600px;
+  margin: 0 30px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 30px;
+  font-size: 16px;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  background-color: #f8f8f8;
+  color: #333;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #67a728; /* Primary green color */
+  box-shadow: 0 4px 12px rgba(103, 167, 40, 0.2); /* Green glow */
+  background-color: #fff;
+}
+
+.search-input::placeholder {
+  color: #999;
+  font-weight: 300;
+}
+
+.search-button {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  height: calc(100% - 12px);
+  width: 50px;
+  background: linear-gradient(135deg, #7bc242, #67a728); /* Green gradient */
+  color: white;
+  border: none;
+  border-radius: 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 5px rgba(103, 167, 40, 0.3); /* Green shadow */
+}
+
+.search-button:hover {
+  background: linear-gradient(135deg, #6bb132, #579718); /* Darker green gradient */
+  transform: translateY(-50%) scale(1.02);
+}
+
+.search-button:active {
+  transform: translateY(-50%) scale(0.98);
+}
+
+.search-button svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+}
+
+/* Micro-interaction for search bar focus */
+.search-bar:focus-within {
+  transform: translateY(-1px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .search-bar {
+    margin: 0 15px;
+    max-width: 100%;
+  }
+  
+  .search-input {
+    padding: 12px 16px;
+  }
+}
     
     .header-icons {
       display: flex;

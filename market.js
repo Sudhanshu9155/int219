@@ -245,5 +245,3 @@ document.addEventListener('DOMContentLoaded', function() {
                 return (numericPrice * quantity).toLocaleString('en-IN');
             }
         });
-        
-        
