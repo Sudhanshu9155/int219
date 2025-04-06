@@ -163,6 +163,6 @@ if ($original_price > 0 && $current_price < $original_price) {
         // }
     </script>
 
-<script src="cart.js" defer></script>
+
 </body>
 </html>

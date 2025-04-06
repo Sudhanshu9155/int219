@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const cartOverlay = document.getElementById('cart-overlay');
     const cartItems = document.getElementById('cart-items');
     const cartEmpty = document.getElementById('cart-empty');
-    const cartCount = document.querySelector('.cart-count');
     
     // Toggle cart popup
     cartIcon.addEventListener('click', function() {
