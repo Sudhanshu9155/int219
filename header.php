@@ -939,8 +939,7 @@
   </div>
   
   <div class="cart-actions">
-    <a href="cart.php" class="view-cart-btn">View Cart</a>
-    <a href="checkout.php" class="checkout-btn">Checkout</a>
+    <button id="checkout-btn" class="checkout-btn">Checkout</button>
   </div>
 </div>
 
@@ -979,6 +978,8 @@
       });
     });
 
+
+    
     document.addEventListener('DOMContentLoaded', function() {
       // Get DOM elements
       const cartIcon = document.getElementById('cartButton');
@@ -1098,6 +1099,7 @@
                   </button>
               `;
               
+
               cartItems.appendChild(cartItemElement);
           });
           
@@ -1145,6 +1147,33 @@
                   updateCartDisplay();
               });
           });
+
+// Add event listener for checkout button
+document.addEventListener('click', function(e) {
+  if (e.target && e.target.id === 'checkout-btn') {
+    // Save cart data for PHP to access
+    sessionStorage.setItem('checkoutCart', JSON.stringify(cart));
+    
+    // Create a hidden form to POST the cart data
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = 'checkout.php';
+    form.style.display = 'none';
+    
+    // Add cart data as a hidden input
+    const cartInput = document.createElement('input');
+    cartInput.type = 'hidden';
+    cartInput.name = 'cart_data';
+    cartInput.value = JSON.stringify(cart);
+    form.appendChild(cartInput);
+    
+    // Submit the form
+    document.body.appendChild(form);
+    form.submit();
+  }
+});
+
+          
       }
     });
   </script>
