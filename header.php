@@ -729,14 +729,12 @@
     
     <!-- Header Icons -->
     <div class="header-icons">
-    <button class="icon-button" id="cartButton" style="position: relative;">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-      <path d="M4 4H5.5L6 7M6 7L8 15H18L20 7H6Z" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="9" cy="19" r="1.5" stroke="#333"/>
-      <circle cx="17" cy="19" r="1.5" stroke="#333"/>
-    </svg>
-    <span class="cart-count" id="cartCount">0</span>
-  </button>
+      <button class="icon-button" id="profileButton">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z" stroke="#333" stroke-width="1.5"/>
+          <path d="M20 22C20 17.5817 16.4183 14 12 14C7.58172 14 4 17.5817 4 22" stroke="#333" stroke-width="1.5"/>
+        </svg>
+      </button>
       <div class="profile-dropdown" id="profileDropdown">
         <div class="welcome-section">
           <?php if(!empty($_COOKIE["login-status"])){
@@ -757,13 +755,14 @@
           <li><a href="#">Saved Addresses</a></li>
         </ul>
       </div>
-      <button class="icon-button" id="cartButton" >
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-          <path d="M4 4H5.5L6 7M6 7L8 15H18L20 7H6Z" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="9" cy="19" r="1.5" stroke="#333"/>
-          <circle cx="17" cy="19" r="1.5" stroke="#333"/>
-        </svg>
-      </button>
+      <button class="icon-button" id="cartButton" style="position: relative;">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <path d="M4 4H5.5L6 7M6 7L8 15H18L20 7H6Z" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="9" cy="19" r="1.5" stroke="#333"/>
+      <circle cx="17" cy="19" r="1.5" stroke="#333"/>
+    </svg>
+    <span class="cart-count" id="cartCount">0</span>
+  </button>
     </div>
   </div>
   
