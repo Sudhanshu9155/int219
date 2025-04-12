@@ -886,10 +886,10 @@
       <div class="cart-item-details">
         <h4>Fresh Carrots</h4>
         <div class="cart-item-price">₹80.00</div>
-        <div class="cart-item-quantity">
-          <button class="qty-btn cart-qty-minus">-</button>
+        <div class="cart-item-quantity ">
+          <button class="qty-btn cart-qty-minus appearance-none cursor-pointer ease">-</button>
           <input type="number" value="1" min="1" readonly>
-          <button class="qty-btn cart-qty-plus">+</button>
+          <button class="qty-btn cart-qty-plus appearance-none cursor-pointer ease">+</button>
         </div>
       </div>
       <button class="remove-item"><i class="fas fa-trash-alt"></i></button>
@@ -960,7 +960,7 @@
     });
 
 
-    
+
     document.addEventListener('DOMContentLoaded', function() {
       // Get DOM elements
       const cartIcon = document.getElementById('cartButton');
