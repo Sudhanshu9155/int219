@@ -723,24 +723,25 @@
       </button>
       <div class="profile-dropdown" id="profileDropdown">
         <div class="welcome-section">
-          <h3>Welcome</h3>
-          <p>To access account and manage orders</p>
-          <button class="login-button">LOGIN/SIGNUP</button>
+          <?php if(!empty($_COOKIE["login-status"])){
+              $user = $_COOKIE["first_name"];
+              echo "<h3>Welcome, $user</h3>
+              <p>To access account and manage orders</p>
+              <button class='login-button' onclick=\"location.href='../marketplace/logout.php'\">LOGOUT</button>";
+            }else{
+              echo "<h3>Welcome, Guest</h3>
+              <p>To access account and manage orders</p>
+              <button class='login-button' onclick=\"location.href='../marketplace/marketlogin.php'\">LOGIN/SIGNUP</button>";
+            }?>
         </div>
         <ul class="dropdown-menu-list">
           <li><a href="#">Orders</a></li>
           <li><a href="#">Wishlist</a></li>
-          <li><a href="#">Gift Cards</a></li>
           <li><a href="#">Contact Us</a></li>
-          <li><a href="#">Myntra Insider</a></li>
-          <li><a href="#">Myntra Credit <span class="new-tag">New</span></a></li>
-          <li><a href="#">Coupons</a></li>
-          <li><a href="#">Saved Cards</a></li>
-          <li><a href="#">Saved VPA</a></li>
           <li><a href="#">Saved Addresses</a></li>
         </ul>
       </div>
-      <button class="icon-button" id="cartButton">
+      <button class="icon-button" id="cartButton" >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
           <path d="M4 4H5.5L6 7M6 7L8 15H18L20 7H6Z" stroke="#333" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           <circle cx="9" cy="19" r="1.5" stroke="#333"/>

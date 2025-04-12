@@ -1,7 +1,6 @@
 <?php
-session_start();
-
 // Database Connection
+ob_start();
 $servername = "127.0.0.1";
 $username = "root";
 $password_db = "";  
@@ -49,18 +48,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $row = $result->fetch_assoc();
             if (password_verify($password, $row['password'])) {
                 // ✅ Set session variables
+                session_start();
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['first_name'] = $row['first_name'];
-                $_SESSION['last_name'] = $row['last_Nnme'];
+                $_SESSION['last_name'] = $row['last_name'];
                 $_SESSION['email'] = $row['email'];
                 $_SESSION['loggedin'] = true;  // ✅ Required for login/logout button
 
                 setcookie("user_id", $row['id'], time() + (86400 * 30), "/"); // 86400 = 1 day
+                setcookie("first_name", $row['first_name'], time() + (86400 * 30), "/");
                 setcookie("login-status", "true", time() + (86400 * 30), "/"); // 86400 = 1 day
 
-                session_regenerate_id(true);
-
-                header("Location: marketplace.php"); // Redirect to marketplace
+                header("Location: ../Profile/index.php"); // Redirect to marketplace
                 exit();
             } else {
                 $generalErr = "Invalid password!";

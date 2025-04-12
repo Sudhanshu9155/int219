@@ -1,6 +1,7 @@
 <?php
+ob_start();
 session_start();
 session_destroy();
-header("Location: marketplace.php");
+header("Location: marketlogin.php");
 exit();
 ?>
