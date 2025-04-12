@@ -778,10 +778,10 @@
         <div class="mega-menu">
           <div class="mega-menu-column">
             <a href="../marketplace/products.php" class="mega-menu-item">All</a>
-            <a href="#" class="mega-menu-item">Tractors</a>
-            <a href="#" class="mega-menu-item">Seeds</a>
-            <a href="#" class="mega-menu-item">Fertilizers</a>
-            <a href="#" class="mega-menu-item">Tools</a>
+            <a href="../marketplace/products.php?category=Tractor" class="mega-menu-item">Tractors</a>
+            <a href="../marketplace/products.php?category=Seeds" class="mega-menu-item">Seeds</a>
+            <a href="../marketplace/products.php?category=Fertilizers" class="mega-menu-item">Fertilizers</a>
+            <a href="../marketplace/products.php?category=Tools" class="mega-menu-item">Tools</a>
           </div>
         </div>
       </li>
