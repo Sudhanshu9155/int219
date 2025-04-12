@@ -59,7 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 setcookie("first_name", $row['first_name'], time() + (86400 * 30), "/");
                 setcookie("login-status", "true", time() + (86400 * 30), "/"); // 86400 = 1 day
 
-                header("Location: ../Profile/index.php"); // Redirect to marketplace
+                header("Location: products.php"); // Redirect to marketplace
                 exit();
             } else {
                 $generalErr = "Invalid password!";

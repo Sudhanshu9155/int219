@@ -47,9 +47,136 @@ if (!$result) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farmers Marketplace</title>
-    <link rel="stylesheet" href="../market.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+}
+
+.products {
+    padding: 5rem 5%;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.product-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+.product-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+/* Add to style.css */
+.product-card {
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+.buy-btn {
+    background-color: #2c5f2d;;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.buy-btn:hover {
+    background-color: #45a049;
+}
+
+.price {
+    color: #2c3e50;
+    font-weight: bold;
+    margin: 10px 0;
+    font-size: 1.2em;
+}
+
+.productH {
+    text-align: center;
+    margin-left: 470px;
+    font-size: 2.5em;
+    font-weight: 600;
+    color: #2c5f2d;
+    margin-bottom: 20px;
+    position: relative; /* Added to make ::after work correctly */
+    display: inline-block; /* Ensures width doesn't stretch */
+    
+}
+
+.productH::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 300px;
+    height: 4px;
+    background: #81c784;
+    border-radius: 4px;
+}
+.product-image {
+    position: relative;
+}
+
+.discount {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #e74c3c;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+        .description {
+    color: #7f8c8d;
+    font-size: 0.9em;
+    min-height: 40px;
+}
+
+.price-container {
+    margin: 10px 0;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #95a5a6;
+    margin-right: 10px;
+}
+
+.current-price {
+    color: #27ae60;
+    font-weight: bold;
+}
+
+
+
         .category-filter {
             margin: 20px 0;
             text-align: center;
