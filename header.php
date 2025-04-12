@@ -777,32 +777,11 @@
         </svg>
         <div class="mega-menu">
           <div class="mega-menu-column">
-            <div class="mega-menu-title">Vegetables</div>
-            <a href="#" class="mega-menu-item">Fresh Vegetables</a>
-            <a href="#" class="mega-menu-item">Organic Vegetables</a>
-            <a href="#" class="mega-menu-item">Exotic Vegetables</a>
-            <a href="#" class="mega-menu-item">Seasonal Picks</a>
-          </div>
-          <div class="mega-menu-column">
-            <div class="mega-menu-title">Fruits</div>
-            <a href="#" class="mega-menu-item">Fresh Fruits</a>
-            <a href="#" class="mega-menu-item">Organic Fruits</a>
-            <a href="#" class="mega-menu-item">Exotic Fruits</a>
-            <a href="#" class="mega-menu-item">Berries</a>
-          </div>
-          <div class="mega-menu-column">
-            <div class="mega-menu-title">Dairy & Eggs</div>
-            <a href="#" class="mega-menu-item">Milk</a>
-            <a href="#" class="mega-menu-item">Cheese</a>
-            <a href="#" class="mega-menu-item">Butter & Yogurt</a>
-            <a href="#" class="mega-menu-item">Farm Fresh Eggs</a>
-          </div>
-          <div class="mega-menu-column">
-            <div class="mega-menu-title">Bakery</div>
-            <a href="#" class="mega-menu-item">Bread</a>
-            <a href="#" class="mega-menu-item">Pastries</a>
-            <a href="#" class="mega-menu-item">Cakes</a>
-            <a href="#" class="mega-menu-item">Organic Baked Goods</a>
+            <a href="../marketplace/products.php" class="mega-menu-item">All</a>
+            <a href="#" class="mega-menu-item">Tractors</a>
+            <a href="#" class="mega-menu-item">Seeds</a>
+            <a href="#" class="mega-menu-item">Fertilizers</a>
+            <a href="#" class="mega-menu-item">Tools</a>
           </div>
         </div>
       </li>
@@ -814,9 +793,7 @@
           <path d="M2 4L6 8L10 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <div class="dropdown-menu">
-          <a href="#" class="dropdown-item">Homepage Style 1</a>
-          <a href="#" class="dropdown-item">Homepage Style 2</a>
-          <a href="#" class="dropdown-item">Homepage Style 3</a>
+          <a href="../marketplace/products.php" class="dropdown-item">Home</a>
           <a href="#" class="dropdown-item">About Us</a>
           <a href="#" class="dropdown-item">Our Farmers</a>
         </div>
@@ -855,7 +832,11 @@
       </li>
       
       <li class="nav-item">Blog</li>
-      <li class="nav-item">Contact</li>
+      <li class="nav-item">
+        <a href="contact1.php" style="text-decoration: none; color: white;">Contact</a>
+      </li>
+
+
     </ul>
     
     <div class="contact-info">
@@ -920,7 +901,7 @@
       <i class="fas fa-shopping-basket"></i>
     </div>
     <p>Your cart is empty</p>
-    <a href="shop.php" class="continue-shopping">Continue Shopping</a>
+    <a href="../marketplace/products.php" class="continue-shopping">Continue Shopping</a>
   </div>
   
   <div class="cart-summary">

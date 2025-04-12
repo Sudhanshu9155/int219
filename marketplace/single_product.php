@@ -54,7 +54,7 @@ if ($original_price > 0 && $current_price < $original_price) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo htmlspecialchars($product['name']); ?> - Your Store</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="single_product.css">
     <!-- Add any additional CSS files you need -->
 </head>
 <body>
@@ -115,7 +115,9 @@ if ($original_price > 0 && $current_price < $original_price) {
                     '<?php echo htmlspecialchars($product['image'], ENT_QUOTES, 'UTF-8'); ?>', 
                     document.getElementById('quantity').value
                 );">Add to Cart</button>
+                <form action="checkout.php">
                     <button class="buy-now-btn">Buy Now</button>
+                </form>
                 </div>
             </div>
         </div>

@@ -455,7 +455,7 @@ $total = $subtotal + $shipping + $tax;
                         <div id="item-quantity"><?php echo $item['quantity']; ?></div>
                         <strong><?php echo $item['name']; ?></strong>
                     </div>
-                    <div>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></div>
+                    <div>₹<?php echo number_format($item['price'] * $item['quantity'], 2); ?></div>
                 </div>
                 <?php endforeach; ?>
             </div>
@@ -463,20 +463,20 @@ $total = $subtotal + $shipping + $tax;
             <div id="price-summary">
                     <div id="price-row">
                         <div>Subtotal:</div>
-                        <div>$<?php echo number_format($subtotal, 2); ?></div>
+                        <div>₹<?php echo number_format($subtotal, 2); ?></div>
                     </div>
                     <div id="price-row">
                         <div>Shipping:</div>
-                        <div>$<?php echo number_format($shipping, 2); ?></div>
+                        <div>₹<?php echo number_format($shipping, 2); ?></div>
                     </div>
                     <div id="price-row">
                         <div>Tax (<?php echo $tax_rate * 100; ?>%):</div>
-                        <div>$<?php echo number_format($tax, 2); ?></div>
+                        <div>₹<?php echo number_format($tax, 2); ?></div>
                     </div>
                     
                     <div id="total">
                         <div>Total:</div>
-                        <div>$<?php echo number_format($total, 2); ?></div>
+                        <div>₹<?php echo number_format($total, 2); ?></div>
                     </div>
                 </div>
         </div>

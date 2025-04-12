@@ -282,7 +282,10 @@
     <!-- Top Footer Section with Logo and Newsletter -->
     <div class="footer-top">
       <div class="footer-logo">
-        <img src="images/logo.png" alt="FarmFresh Logo">
+      <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+        <path d="M20 5C15 5 10 10 10 15C10 20 15 25 20 25C25 25 30 20 30 15C30 10 25 5 20 5Z" fill="#67a728"/>
+        <path d="M20 25V35M10 15L5 10M30 15L35 10" stroke="#67a728" stroke-width="2"/>
+        </svg>
         <p>Bringing farm-fresh produce directly to your doorstep. Supporting local farmers and sustainable agriculture since 2020.</p>
         <div class="social-icons">
           <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
@@ -352,11 +355,11 @@
     <div class="payment-methods">
       <h3>Secure Payment Options</h3>
       <div class="payment-icons">
-        <img src="images/visa.png" alt="Visa">
-        <img src="images/mastercard.png" alt="Mastercard">
-        <img src="images/paypal.png" alt="PayPal">
-        <img src="images/apple-pay.png" alt="Apple Pay">
-        <img src="images/google-pay.png" alt="Google Pay">
+        <i class="fa-brands fa-cc-visa"></i>
+        <i class="fa-brands fa-cc-mastercard"></i>
+        <i class="fa-brands fa-cc-paypal"></i>
+        <i class="fa-brands fa-cc-apple-pay"></i>
+        <i class="fa-brands fa-google-pay"></i>
       </div>
     </div>
     
