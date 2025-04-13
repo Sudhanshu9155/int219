@@ -1,6 +1,7 @@
 <?php
 // Database Connection
 ob_start();
+// session_destroy();
 $servername = "127.0.0.1";
 $username = "root";
 $password_db = "";  
