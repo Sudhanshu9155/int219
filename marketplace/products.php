@@ -74,17 +74,30 @@ body {
 
 .product-card {
     background: #fff;
+    border: 1px solid rgb(44, 95, 45, 0.3);
     border-radius: 10px;
-    padding: 1rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    overflow: hidden;
+    /* padding: 1rem; */
     text-align: center;
 }
-
+.product-card:hover {
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border: 1px solid rgb(44, 95, 45, 0.8);
+    transform: translateY(-5px);
+    
+}
 .product-card img {
     width: 100%;
     height: 200px;
-    object-fit: cover;
+    object-fit: fit;
+
     border-radius: 5px;
+    margin: 0px 0 10px 0;
+}
+.product-card h4 {
+    font-size: 1.3em;
+    font-weight: 600;
 }
 /* Add to style.css */
 .product-card {
@@ -92,30 +105,26 @@ body {
     cursor: pointer;
 }
 
-.product-card:hover {
-    transform: translateY(-5px);
-}
-
 .buy-btn {
-    background-color: #2c5f2d;;
+    background-color: #67A628;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
+    padding: 10px 30px;
+    /* border-radius: 5px; */
     cursor: pointer;
     transition: background-color 0.3s;
+    /* margin: 10px 0; */
+    font-size: 0.9em;
+    font-weight: 500;
+    width: 100%;
+    text-align: center;
 }
 
 .buy-btn:hover {
-    background-color: #45a049;
+    background-color: #FEA601;
 }
 
-.price {
-    color: #2c3e50;
-    font-weight: bold;
-    margin: 10px 0;
-    font-size: 1.2em;
-}
+
 
 .productH {
     text-align: center;
@@ -154,10 +163,11 @@ body {
     border-radius: 3px;
     font-size: 0.9em;
 }
-        .description {
-    color: #7f8c8d;
+.description {
+    color: #000;
     font-size: 0.9em;
     min-height: 40px;
+    margin: 10px 0;
 }
 
 .price-container {
@@ -168,17 +178,23 @@ body {
     text-decoration: line-through;
     color: #95a5a6;
     margin-right: 10px;
+    font-weight:200;
+    font-size: 0.8em;
 }
 
 .current-price {
     color: #27ae60;
     font-weight: bold;
+    font-size: 1.2em;
 }
 
+.category{
+    color: #7f8c8d;
+    font-size: 0.8em;
+}
 
-
-        .category-filter {
-            margin: 20px 0;
+        .category-buttons {
+            margin: 30px 0;
             text-align: center;
         }
         .category-filter select {
@@ -263,7 +279,7 @@ body {
                     <?php endif; ?>
                 </div>
                 <h4><?php echo htmlspecialchars($product['name']); ?></h4>
-                <div class="category"><?php echo htmlspecialchars($product['category'] ?? 'Uncategorized'); ?></div>
+                <div class="category">Category: <?php echo htmlspecialchars($product['category'] ?? 'Uncategorized'); ?></div>
                 <p class="description"><?php echo htmlspecialchars($product['description'] ?? ''); ?></p>
                 <div class="price-container">
                     <span class="original-price">₹<?php echo htmlspecialchars(number_format($original_price, 2)); ?></span>
