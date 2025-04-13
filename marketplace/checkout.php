@@ -1,6 +1,5 @@
 
 <?php
-ob_start();
 // Database connection
 $servername = "127.0.0.1";
 $username = "root";
@@ -15,7 +14,6 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-session_start();
 
 // Check if cart data was sent via POST
 if (isset($_POST['cart_data'])) {

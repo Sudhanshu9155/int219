@@ -1,3 +1,4 @@
+<?php session_start();?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -737,21 +738,24 @@
       </button>
       <div class="profile-dropdown" id="profileDropdown">
         <div class="welcome-section">
-          <?php if(!empty($_COOKIE["login-status"])){
-              $user = $_COOKIE["first_name"];
+          <?php
+          if(isset($_SESSION['user_id'])){
+            $user = $_SESSION["first_name"];
               echo "<h3>Welcome, $user</h3>
               <p>To access account and manage orders</p>
               <button class='login-button' onclick=\"location.href='../marketplace/logout.php'\">LOGOUT</button>";
             }else{
-              echo "<h3>Welcome, Guest</h3>
-              <p>To access account and manage orders</p>
-              <button class='login-button' onclick=\"location.href='../marketplace/marketlogin.php'\">LOGIN/SIGNUP</button>";
-            }?>
+            echo "<h3>Welcome, Guest</h3>
+            <p>To access account and manage orders</p>
+            <button class='login-button' onclick=\"location.href='../marketplace/marketlogin.php'\">LOGIN/SIGNUP</button>";
+          }
+          ?>
+           
         </div>
         <ul class="dropdown-menu-list">
           <li><a href="#">Orders</a></li>
-          <li><a href="#">Wishlist</a></li>
-          <li><a href="#">Contact Us</a></li>
+          <li><a href="#">Edit Profile</a></li>
+          <li><a href="#">Saved Addresses</a></li>
           <li><a href="#">Saved Addresses</a></li>
         </ul>
       </div>

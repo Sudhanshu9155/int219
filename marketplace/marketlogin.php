@@ -1,6 +1,5 @@
 <?php
 // Database Connection
-ob_start();
 $servername = "127.0.0.1";
 $username = "root";
 $password_db = "";  
@@ -52,12 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION['user_id'] = $row['id'];
                 $_SESSION['first_name'] = $row['first_name'];
                 $_SESSION['last_name'] = $row['last_name'];
-                $_SESSION['email'] = $row['email'];
-                $_SESSION['loggedin'] = true;  // ✅ Required for login/logout button
+                $_SESSION['email'] = $row['email'];  // ✅ Required for login/logout button
 
-                setcookie("user_id", $row['id'], time() + (86400 * 30), "/"); // 86400 = 1 day
-                setcookie("first_name", $row['first_name'], time() + (86400 * 30), "/");
-                setcookie("login-status", "true", time() + (86400 * 30), "/"); // 86400 = 1 day
+                // setcookie("user_id", $row['id'], time() + (86400 * 30), "/"); // 86400 = 1 day
+                // setcookie("first_name", $row['first_name'], time() + (86400 * 30), "/");
+                // setcookie("login-status", "true", time() + (86400 * 30), "/"); // 86400 = 1 day
 
                 header("Location: products.php"); // Redirect to marketplace
                 exit();
