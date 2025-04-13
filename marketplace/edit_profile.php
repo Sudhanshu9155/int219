@@ -1,12 +1,3 @@
-<?php
-if(!isset($_SESSION['user_id'])){
-    echo "<script>alert('Please login to access this page.');</script>";
-    echo "<script>window.location.href = 'marketlogin.php';</script>";
-    exit();
-}else{
-    
-}
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -17,5 +8,16 @@ if(!isset($_SESSION['user_id'])){
 </head>
 <body>
 <?php include '../header.php'; ?>
+
 </body>
 </html>
+
+<?php
+if(!isset($_SESSION['user_id'])){
+    echo "<script>alert('Please login to access this page.');</script>";
+    echo "<script>window.location.href = 'marketlogin.php';</script>";
+    exit();
+}else{
+    
+}
+?>
