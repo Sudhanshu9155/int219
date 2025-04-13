@@ -1,18 +1,22 @@
-<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Profile</title>
+    <link rel="stylesheet" href="edit_profile.css">
+</head>
+<body>
+<?php include '../header.php'; ?>
+
 <?php
-// edit-profile.php
-
-// Start session to access user data
-session_start();
-
-// Check if user is logged in, redirect to login if not
-if (!isset($_SESSION['user_id'])) {
-    header("Location: marketlogin.php");
+if(!isset($_SESSION['user_id'])){
+    echo "<script>alert('Please login to access this page.');</script>";
+    echo "<script>window.location.href = 'marketlogin.php';</script>";
     exit();
 }
-
 // Database connection - Updated with your database name
-$db_host = "localhost";
+$db_host = "127.0.0.1";
 $db_name = "int219";  // Your specific database name
 $db_user = "root";
 $db_pass = "";
@@ -122,20 +126,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
-=======
->>>>>>> 286ca7944e9451361a742a63bf962be009630e0d
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <title>Edit Profile</title>
-    <link rel="stylesheet" href="edit_profile.css">
-</head>
-<body>
-
     <div class="container">
         <h1>Edit Profile</h1>
         
@@ -200,25 +190,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </form>
     </div>
 
-
+    <?php include '../footer.php'; ?>
     </body>
 </html>
-=======
-    <title>Document</title>
-</head>
-<body>
-<?php include '../header.php'; ?>
-
-</body>
-</html>
-
-<?php
-if(!isset($_SESSION['user_id'])){
-    echo "<script>alert('Please login to access this page.');</script>";
-    echo "<script>window.location.href = 'marketlogin.php';</script>";
-    exit();
-}else{
-    
-}
-?>
->>>>>>> 286ca7944e9451361a742a63bf962be009630e0d
