@@ -1,5 +1,6 @@
-
 <?php
+// Start session if not already started
+
 // Database connection
 $servername = "127.0.0.1";
 $username = "root";
@@ -14,6 +15,52 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Initialize user data variables
+$fname = "";
+$lname = "";
+$email = "";
+$phone = "";
+$street_address = "";
+$address_line2 = "";
+$city = "";
+$state = "";
+$zip = "";
+$country = "IN"; // Default to India
+
+// Check if user is logged in
+if (isset($_SESSION['user_id'])) {
+    $user_id = $_SESSION['user_id'];
+    
+    // Retrieve user data
+    $user_sql = "SELECT u.first_name, u.last_name, u.email, 
+                       ua.address_line1, ua.address_line2, ua.city, 
+                       ua.postal_code, ua.country, ua.telephone 
+                FROM user u 
+                LEFT JOIN user_address ua ON u.id = ua.user_id 
+                WHERE u.id = ?";
+    
+    $stmt = $conn->prepare($user_sql);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    
+    if ($result->num_rows > 0) {
+        $user_data = $result->fetch_assoc();
+        
+        // Populate form fields with user data
+        $fname = $user_data['first_name'];
+        $lname = $user_data['last_name'];
+        $email = $user_data['email'];
+        $phone = $user_data['telephone'] ?? "";
+        $street_address = $user_data['address_line1'] ?? "";
+        $address_line2 = $user_data['address_line2'] ?? "";
+        $city = $user_data['city'] ?? "";
+        $state = ""; // State not in original database schema, but we'll keep the field
+        $zip = $user_data['postal_code'] ?? "";
+        $country = $user_data['country'] ?? "IN";
+    }
+    $stmt->close();
+}
 
 // Check if cart data was sent via POST
 if (isset($_POST['cart_data'])) {
@@ -35,10 +82,6 @@ $order_id = null;
 
 // Check if cart exists in session
 if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
-    // Redirect to cart page if no items
-    // header("Location: cart.php");
-    // exit;
-    
     // For testing only - remove in production
     $_SESSION['cart'] = [
         ['id' => 1, 'name' => 'Organic Tomatoes', 'price' => 120, 'quantity' => 2, 'image' => 'images/products/tomatoes.jpg'],
@@ -53,72 +96,74 @@ foreach ($_SESSION['cart'] as $item) {
     $items[] = $item;
 }
 
-// Calculate tax (5%)
-$tax_rate = 0.05;
+$tax_rate = 0.18;
 $tax = $subtotal * $tax_rate;
 
 // Calculate total
 $total = $subtotal + $shipping + $tax;
 
-// // Process form submission
-// if ($_SERVER["REQUEST_METHOD"] == "POST") {
-//     // Validate form data
-//     $first_name = filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_STRING);
-//     $last_name = filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_STRING);
-//     $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-//     $phone = filter_input(INPUT_POST, 'phone', FILTER_SANITIZE_STRING);
-//     $address = filter_input(INPUT_POST, 'address', FILTER_SANITIZE_STRING);
-//     $city = filter_input(INPUT_POST, 'city', FILTER_SANITIZE_STRING);
-//     $state = filter_input(INPUT_POST, 'state', FILTER_SANITIZE_STRING);
-//     $zip = filter_input(INPUT_POST, 'zip', FILTER_SANITIZE_STRING);
-//     $payment_method = filter_input(INPUT_POST, 'payment', FILTER_SANITIZE_STRING);
-
-//     // Validate required fields
-//     if (empty($first_name) || empty($last_name) || empty($email) || empty($phone) || 
-//         empty($address) || empty($city) || empty($state) || empty($zip) || empty($payment_method)) {
-//         $error_message = "All fields are required";
-//     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-//         $error_message = "Invalid email format";
-//     } else {
-//         // Create order in database
-//         $order_date = date("Y-m-d H:i:s");
+// Process form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['checkout'])) {
+    // Get form data
+    $fname = $_POST['fname'];
+    $lname = $_POST['lname'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $street_address = $_POST['street-address'];
+    $address_line2 = $_POST['address'] ?? "";
+    $city = $_POST['city'];
+    $state = $_POST['state'];
+    $zip = $_POST['zip'];
+    $country = $_POST['country'];
+    
+    // If user is logged in, update their address information
+    if (isset($_SESSION['user_id'])) {
+        $user_id = $_SESSION['user_id'];
         
-//         // Insert order into database
-//         $sql = "INSERT INTO order_details (first_name, last_name, email, phone, address, city, state, zip, payment_method, order_date, subtotal, tax, shipping, total_amount)
-//                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        // Check if user already has an address
+        $check_sql = "SELECT id FROM user_address WHERE user_id = ?";
+        $check_stmt = $conn->prepare($check_sql);
+        $check_stmt->bind_param("i", $user_id);
+        $check_stmt->execute();
+        $check_result = $check_stmt->get_result();
         
-//         $stmt = $conn->prepare($sql);
-//         $stmt->bind_param("ssssssssssdddd", $first_name, $last_name, $email, $phone, $address, $city, $state, $zip, $payment_method, $order_date, $subtotal, $tax, $shipping, $total);
-        
-//         if ($stmt->execute()) {
-//             $order_id = $conn->insert_id;
-            
-//             // Insert order items
-//             $item_sql = "INSERT INTO order_items (order_id, product_id, product_name, quantity, price) VALUES (?, ?, ?, ?, ?)";
-//             $item_stmt = $conn->prepare($item_sql);
-            
-//             $success = true;
-//             foreach ($items as $item) {
-//                 $item_stmt->bind_param("iisid", $order_id, $item['id'], $item['name'], $item['quantity'], $item['price']);
-//                 if (!$item_stmt->execute()) {
-//                     $success = false;
-//                     $error_message = "Error adding order items: " . $conn->error;
-//                     break;
-//                 }
-//             }
-            
-//             if ($success) {
-//                 // Clear cart
-//                 $_SESSION['cart'] = [];
-//                 $success_message = "Order placed successfully! Your order ID is #" . $order_id;
-//             }
-//         } else {
-//             $error_message = "Error placing order: " . $conn->error;
-//         }
-//     }
-// }
+        if ($check_result->num_rows > 0) {
+            // Update existing address
+            $address_id = $check_result->fetch_assoc()['id'];
+            $update_sql = "UPDATE user_address SET 
+                           address_line1 = ?, 
+                           address_line2 = ?,
+                           city = ?,
+                           postal_code = ?,
+                           country = ?,
+                           telephone = ?
+                           WHERE id = ?";
+                           
+            $update_stmt = $conn->prepare($update_sql);
+            $update_stmt->bind_param("ssssssi", $street_address, $address_line2, $city, $zip, $country, $phone, $address_id);
+            $update_stmt->execute();
+            $update_stmt->close();
+        } else {
+            // Insert new address
+            $insert_sql = "INSERT INTO user_address (user_id, address_line1, address_line2, city, postal_code, country, telephone)
+                           VALUES (?, ?, ?, ?, ?, ?, ?)";
+                           
+            $insert_stmt = $conn->prepare($insert_sql);
+            $insert_stmt->bind_param("issssss", $user_id, $street_address, $address_line2, $city, $zip, $country, $phone);
+            $insert_stmt->execute();
+            $insert_stmt->close();
+        }
+        $check_stmt->close();
+    }
+    
+    // Here you would add code to create order in the database
+    // For now, just show success message
+    $success_message = "Order processed successfully!";
+    
+    // Optionally, clear the cart after successful order
+    // $_SESSION['cart'] = [];
+}
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -130,6 +175,22 @@ $total = $subtotal + $shipping + $tax;
 </head>
 <body>
     <?php include("../header.php");?>
+
+    <?php if (!empty($success_message)): ?>
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mx-[100px] mb-4" role="alert">
+        <strong class="font-bold">Success!</strong>
+        <span class="block sm:inline"><?php echo $success_message; ?></span>
+    </div>
+    <?php endif; ?>
+    
+    <?php if (!empty($error_message)): ?>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mx-[100px] mb-4" role="alert">
+        <strong class="font-bold">Error!</strong>
+        <span class="block sm:inline"><?php echo $error_message; ?></span>
+    </div>
+    <?php endif; ?>
+
+
     <h2 class="text-center w-full mt-[50px] text-[40px]">Checkout</h2>
     <div class="flex p-[100px] pt-[30px] gap-[50px]" id="container">
         <div class="w-50 flex-auto " id="left">
@@ -137,7 +198,7 @@ $total = $subtotal + $shipping + $tax;
                 <span class="text-[20px] text-gray-600">Customer Details:</span>
                 <div class="mb-4 flex gap-[10px] mt-5">
                     <input type="text" name="fname" id="fname" class="border-gray-500 rounded-xl shadow border
-                    -2 w-full p-2 flex-1/2 focus:border-green-500 focus:outline-none" required placeholder="First Name" />
+                    -2 w-full p-2 flex-1/2 focus:border-green-500 focus:outline-none" required placeholder="First Name" value="<?php echo $fname;?>"/>
                     <input type="text" name="lname" id="lname" class="border-gray-500 rounded-xl shadow border
                     -2 w-full p-2 flex-1/2 focus:border-green-500 focus:outline-none" required placeholder="Last Name" />
                 </div>
@@ -446,11 +507,11 @@ $total = $subtotal + $shipping + $tax;
         <div class="w-50 flex-auto rounded-2xl bg-green-100 p-[20px]" id="right">
             <span class="text-[20px] text-gray-600">Order Details:</span>
             
-            <div class="flex" id="item-list">
+            <div class="flex flex-col space-y-4 mt-4" id="item-list">
                 <?php foreach ($items as $item): ?>
-                <div class="w-full" id="item">
-                    <div id="item-info">
-                        <div id="item-quantity"><?php echo $item['quantity']; ?></div>
+                <div class="flex justify-between items-center border-b pb-2" id="item">
+                    <div id="item-info" class="flex items-center">
+                        <div id="item-quantity" class="bg-green-950 text-white rounded-full w-6 h-6 flex items-center justify-center mr-2"><?php echo $item['quantity']; ?></div>
                         <strong><?php echo $item['name']; ?></strong>
                     </div>
                     <div>₹<?php echo number_format($item['price'] * $item['quantity'], 2); ?></div>
@@ -458,25 +519,26 @@ $total = $subtotal + $shipping + $tax;
                 <?php endforeach; ?>
             </div>
 
-            <div id="price-summary">
-                    <div id="price-row">
-                        <div>Subtotal:</div>
-                        <div>₹<?php echo number_format($subtotal, 2); ?></div>
-                    </div>
-                    <div id="price-row">
-                        <div>Shipping:</div>
-                        <div>₹<?php echo number_format($shipping, 2); ?></div>
-                    </div>
-                    <div id="price-row">
-                        <div>Tax (<?php echo $tax_rate * 100; ?>%):</div>
-                        <div>₹<?php echo number_format($tax, 2); ?></div>
-                    </div>
-                    
-                    <div id="total">
-                        <div>Total:</div>
-                        <div>₹<?php echo number_format($total, 2); ?></div>
-                    </div>
+
+            <div id="price-summary" class="mt-6 space-y-2">
+                <div id="price-row" class="flex justify-between">
+                    <div>Subtotal:</div>
+                    <div>₹<?php echo number_format($subtotal, 2); ?></div>
                 </div>
+                <div id="price-row" class="flex justify-between">
+                    <div>Shipping:</div>
+                    <div>₹<?php echo number_format($shipping, 2); ?></div>
+                </div>
+                <div id="price-row" class="flex justify-between">
+                    <div>Tax (<?php echo $tax_rate * 100; ?>%):</div>
+                    <div>₹<?php echo number_format($tax, 2); ?></div>
+                </div>
+                
+                <div id="total" class="flex justify-between font-bold text-lg pt-2 border-t">
+                    <div>Total:</div>
+                    <div>₹<?php echo number_format($total, 2); ?></div>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -99,7 +99,6 @@ body {
     font-size: 1.3em;
     font-weight: 600;
 }
-/* Add to style.css */
 .product-card {
     transition: transform 0.3s ease;
     cursor: pointer;
@@ -110,10 +109,8 @@ body {
     color: white;
     border: none;
     padding: 10px 30px;
-    /* border-radius: 5px; */
     cursor: pointer;
     transition: background-color 0.3s;
-    /* margin: 10px 0; */
     font-size: 0.9em;
     font-weight: 500;
     width: 100%;
@@ -133,8 +130,8 @@ body {
     font-weight: 600;
     color: #2c5f2d;
     margin-bottom: 20px;
-    position: relative; /* Added to make ::after work correctly */
-    display: inline-block; /* Ensures width doesn't stretch */
+    position: relative; 
+    display: inline-block;
     
 }
 
@@ -191,7 +188,7 @@ body {
 .category{
     color: #7f8c8d;
     font-size: 0.8em;
-}
+} 
 
         .category-buttons {
             margin: 30px 0;

@@ -1,7 +1,7 @@
 <?php 
-@ob_start();
-// session_start();
-
+if (session_status() == PHP_SESSION_NONE) {
+  session_start();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -744,7 +744,7 @@
         <div class="welcome-section">
           <?php
           if(isset($_SESSION['user_id'])){
-            $user = $_SESSION["first_name"];
+            $user = htmlspecialchars($_SESSION["first_name"]);
               echo "<h3>Welcome, $user</h3>
               <p>To access account and manage orders</p>
               <button class='login-button' onclick=\"location.href='../marketplace/logout.php'\">LOGOUT</button>";
@@ -758,7 +758,11 @@
         </div>
         <ul class="dropdown-menu-list">
           <li><a href="#">Orders</a></li>
+<<<<<<< HEAD
           <li><a href="../marketplace/edit_profile.php">Edit Profile</a></li>
+=======
+          <li><a href="edit_profile.php">Edit Profile</a></li>
+>>>>>>> 286ca7944e9451361a742a63bf962be009630e0d
           <li><a href="#">Saved Addresses</a></li>
           <li><a href="#">Saved Addresses</a></li>
         </ul>
