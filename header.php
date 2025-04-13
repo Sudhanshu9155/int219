@@ -775,15 +775,15 @@
         <svg class="dropdown-icon" width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path d="M2 4L6 8L10 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <div class="mega-menu">
-          <div class="mega-menu-column">
-            <a href="../marketplace/products.php" class="mega-menu-item">All</a>
-            <a href="../marketplace/products.php?category=Tractor" class="mega-menu-item">Tractors</a>
-            <a href="../marketplace/products.php?category=Seeds" class="mega-menu-item">Seeds</a>
-            <a href="../marketplace/products.php?category=Fertilizers" class="mega-menu-item">Fertilizers</a>
-            <a href="../marketplace/products.php?category=Tools" class="mega-menu-item">Tools</a>
+        <!-- <div class="mega-menu"> -->
+          <div class="dropdown-menu">
+            <a href="../marketplace/products.php" class="dropdown-item">All</a>
+            <a href="../marketplace/products.php?category=Tractor" class="dropdown-item">Tractors</a>
+            <a href="../marketplace/products.php?category=Seeds" class="dropdown-item">Seeds</a>
+            <a href="../marketplace/products.php?category=Fertilizers" class="dropdown-item">Fertilizers</a>
+            <a href="../marketplace/products.php?category=Tools" class="dropdown-item">Tools</a>
           </div>
-        </div>
+        <!-- </div> -->
       </li>
       
       <!-- Home dropdown menu -->
@@ -799,7 +799,9 @@
         </div>
       </li>
       
-      <li class="nav-item">Shop</li>
+      <li class="nav-item">
+        <a href="../marketplace/products.php" style="text-decoration: none; color: white;">Shop</a>
+      </li>
       
       <!-- Seasonal dropdown menu -->
       <li class="nav-item">
@@ -808,11 +810,11 @@
           <path d="M2 4L6 8L10 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <div class="dropdown-menu">
-          <a href="#" class="dropdown-item">Spring Collection</a>
-          <a href="#" class="dropdown-item">Summer Harvest</a>
-          <a href="#" class="dropdown-item">Fall Favorites</a>
-          <a href="#" class="dropdown-item">Winter Selection</a>
-          <a href="#" class="dropdown-item">Holiday Specials</a>
+          <a href="#" class="dropdown-item">Current Season Products</a>
+          <a href="#" class="dropdown-item">Crop Calendars</a>
+          <a href="#" class="dropdown-item">Seasonal Offers</a>
+          <a href="#" class="dropdown-item">Seasonal Categories</a>
+          <a href="#" class="dropdown-item">Seasonal Tools </a>
         </div>
       </li>
       
@@ -823,11 +825,12 @@
           <path d="M2 4L6 8L10 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <div class="dropdown-menu">
-          <a href="#" class="dropdown-item">Recipes</a>
-          <a href="#" class="dropdown-item">Nutritional Info</a>
-          <a href="#" class="dropdown-item">Farming Practices</a>
-          <a href="#" class="dropdown-item">Sustainability</a>
-          <a href="#" class="dropdown-item">FAQ</a>
+        <a href="#" class="dropdown-item">FAQ</a>
+          <a href="#" class="dropdown-item">Services</a>
+          <a href="#" class="dropdown-item">Support</a>
+          <a href="#" class="dropdown-item">Community</a>
+          <a href="#" class="dropdown-item">Business Solutions</a>
+          <a href="#" class="dropdown-item">Company Information</a>
         </div>
       </li>
       

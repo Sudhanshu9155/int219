@@ -60,7 +60,23 @@ $sql = "INSERT IGNORE INTO product (name, image_url, category, `desc`, cost_pric
 ('HMT ST 25', 'https://images.tractorgyan.com/uploads/3055/614ade37a93f9_HMT-2522-DX-tractorgyan.jpg', 'Tractor', '25HP, 2WD, Government Approved', 310000, 279000),  
 ('Valtra T25', 'https://i.ytimg.com/vi/mRpaRBGTOWE/maxresdefault.jpg', 'Tractor', '25HP, 4WD, Premium Brand', 490000, 465500),  
 ('Captain 250', 'https://img3.exportersindia.com/product_images/bc-full/2021/12/9692948/captain-250-di-25-hp-4wd-tractor-1640001210-6124232.jpeg', 'Tractor', '25HP, 2WD, Affordable', 270000, 229500),  
-('LandForce 254', 'https://i.ytimg.com/vi/gvED9VZ5scg/maxresdefault.jpg', 'Tractor', '25HP, 4WD, Rugged Design', 350000, 322000);  
+('LandForce 254', 'https://i.ytimg.com/vi/gvED9VZ5scg/maxresdefault.jpg', 'Tractor', '25HP, 4WD, Rugged Design', 350000, 322000),
+('Premium Wheat Seeds', 'https://m.media-amazon.com/images/I/713MgBbecHL.jpg', 'Seeds', 'High-yield wheat variety, drought resistant', 250.00, 225.00),
+('Organic Rice Seeds', 'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcScrsUTx4u6ETRtMOp6SR_l-qng69V9SAToKT3vCVwx74BAd8t3cQ7ZQuXkIkrDi5VelYTcYSKowBF2ef8dwbQ5nR1PYr8LxOOfrQuR17Di', 'Seeds', 'Organic basmati rice seeds, pesticide-free', 300.00, 270.00),
+('Hybrid Corn Seeds', 'https://5.imimg.com/data5/ANDROID/Default/2025/4/502100460/OT/SN/YK/29643016/product-jpeg-1000x1000.jpg', 'Seeds', 'Fast growing hybrid corn variety, disease resistant', 220.00, 198.00),
+('Cotton Seeds', 'https://badikheti-production.s3.ap-south-1.amazonaws.com/products/20230419160243486845769.jpg?tr=w-216,h-288', 'Seeds', 'BT cotton seeds for maximum yield', 450.00, 405.00),
+('Mustard Seeds', 'https://organicindia.com/cdn/shop/products/1649754766-mustardseeds.jpg?v=1667975727', 'Seeds', 'High oil content, early maturing variety', 180.00, 162.00),
+('NPK Complex Fertilizer', 'https://www.shutterstock.com/image-photo/chemical-fertilizer-piled-hand-against-260nw-2514599895.jpg', 'Fertilizers', 'Balanced 20:20:20 NPK formula for all crops', 850.00, 799.00),
+('Organic Vermicompost', 'https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQ0mR3gCAbuzcq2oEB2bepkMXBZXxztWWE5n39p085pC2LrnjiUtgg1LxrOOjp1s0EOxYs5Lshgyxq0LgMeaWBQTft14xljgNSrfcrTGpxm', 'Fertilizers', '100% organic soil enricher, improves soil health', 450.00, 399.00),
+('Liquid Biofertilizer', 'https://nrdcindia.com/uploads/success_story/1546419217Liquid_BioFertiliser.jpg', 'Fertilizers', 'Contains nitrogen-fixing bacteria for better growth', 550.00, 495.00),
+('Potassium Sulphate', 'https://www.katyayaniorganics.com/wp-content/uploads/2022/11/4-3.png', 'Fertilizers', 'High potassium content for fruit and vegetable crops', 750.00, 675.00),
+('Zinc Sulphate', 'https://onemg.gumlet.io/l_watermark_346,w_480,h_480/a_ignore,w_480,h_480,c_fit,q_auto,f_auto/syxyiji5ixre8tbckgoa.jpg?dpr=2&format=auto', 'Fertilizers', 'Micronutrient supplement for zinc deficient soils', 350.00, 315.00),
+('Bone Meal Fertilizer', 'https://anandigreens.com/cdn/shop/files/5_7abb809e-f3a5-45bf-a417-b0c9f708a3f2_700x700.jpg?v=1718963232', 'Fertilizers', 'Slow-release phosphorus and calcium, ideal for root crops', 480.00, 432.00),
+('Heavy Duty Garden Hoe', 'https://cdn11.bigcommerce.com/s-5iaef8cbv6/images/stencil/1280x1280/products/848/2320/heavy-duty-hoe__89733.1639393648__51575.1641904397.jpg?c=1', 'Tools', 'Stainless steel blade with ergonomic handle', 1200.00, 1080.00),
+('Battery Powered Sprayer', 'https://5.imimg.com/data5/SELLER/Default/2024/4/406071822/BG/TF/JV/2646725/balwaan-sp-80b-li-ion-battery-sprayer-8l-250x250.jpg', 'Tools', '16L capacity, 8-hour battery life, adjustable nozzle', 3500.00, 3150.00),
+('Grafting Knife Set', 'https://m.media-amazon.com/images/I/71TkFIbnUfL.jpg', 'Tools', 'Professional 3-piece grafting and pruning knife set', 1500.00, 1275.00),
+('Manual Seed Drill', 'https://i0.wp.com/kamalagrotech.in/wp-content/uploads/2024/01/33.png?fit=1050%2C1050&ssl=1', 'Tools', 'Precision planting tool with adjustable row spacing', 2800.00, 2520.00),
+('Soil Moisture Meter', 'https://media.diy.com/is/image/KingfisherDigital/sa-products-soil-moisture-meter-garden-soil-humidity-meter-for-outdoor-indoor-plants-plant-watering-indicator-with-probe~5060938981890_04c_MP?$MOB_PREV$&$width=600&$height=600', 'Tools', 'Digital meter for measuring soil moisture, pH and sunlight', 1200.00, 1020.00);
 ";
 if ($conn->query($sql) === FALSE) {
     die("Error creating user table: " . $conn->error);
