@@ -128,7 +128,7 @@ body {
 
 .productH {
     text-align: center;
-    margin-left: 470px;
+    margin-left: 580px;
     font-size: 2.5em;
     font-weight: 600;
     color: #2c5f2d;

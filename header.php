@@ -1,6 +1,8 @@
 <?php 
 @ob_start();
-session_start();?>
+// session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -698,7 +700,7 @@ session_start();?>
     <div class="announcement-content">
       <div class="announcement-item">Special Offer: Get 25% Discount Code 'FRESH25'</div>
       <span class="star-icon">★</span>
-      <div class="announcement-item">Free Shipping on orders above $75</div>
+      <div class="announcement-item">Free Shipping on orders above ₹6000</div>
       <span class="star-icon">★</span>
       <div class="announcement-item">Local Delivery Within 24 Hours</div>
       <span class="star-icon">★</span>
@@ -856,7 +858,7 @@ session_start();?>
       </div>
       <div>
         <div class="call-text">Order by phone</div>
-        <div class="phone-number">+1 800 678 9876</div>
+        <div class="phone-number">+9155033078</div>
       </div>
     </div>
   </div>
