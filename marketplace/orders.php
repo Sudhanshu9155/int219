@@ -225,7 +225,7 @@ $conn->close();
                                 <strong>Payment Method:</strong> 
                                 <?php echo isset($order['provider']) ? htmlspecialchars($order['provider']) : 'Not specified'; ?>
                             </div>
-                            <a href="complete_order.php?order_id=<?php echo $order['id']; ?>" class="btn btn-outline-primary btn-sm">View Details</a>
+                            <!-- <a href="complete_order.php?order_id=<?php echo $order['id']; ?>" class="btn btn-outline-primary btn-sm">View Details</a> -->
                         </div>
                     </div>
                 </div>
