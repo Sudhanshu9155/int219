@@ -299,8 +299,9 @@ body {
             ?>
         </div>
     </section>
-
+    
     <?php include '../footer.php'; ?>
+    <?php include '../chatbot.php'; ?>
 </body>
 </html>
 
