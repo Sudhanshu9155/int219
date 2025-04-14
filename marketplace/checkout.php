@@ -1,13 +1,9 @@
 <?php
-// Start session if not already started
-
-// Database connection
 $servername = "127.0.0.1";
 $username = "root";
 $password_db = "";
 $database = "int219";
 
-// Create connection
 $conn = new mysqli($servername, $username, $password_db, $database);
 
 // Check connection
@@ -518,6 +514,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['checkout'])) {
                 </div>
                 <?php endforeach; ?>
             </div>
+
+            <input type="checkbox" name="Cash On Delivery" id="Cash On Delivery">
+            <label for="Cash On Delivery">Cash On Delivery</label>
 
 
             <div id="price-summary" class="mt-6 space-y-2">
