@@ -1,104 +1,162 @@
 <?php
-
-// Database connection
-$servername = "127.0.0.1";
-$username = "root";
-$password_db = "";  
-$database = "int219";
-
-// Create connection
-$conn = new mysqli($servername, $username, $password_db, $database);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
 session_start();
+require_once '../config/database.php';
 
-// Initialize variables
-$total = 0;
-$subtotal = 0;
-$items = [];
-$item_count = 0;
-$error_message = "";
-$success_message = "";
-
-// Fetch cart items from session or database
-// For this example, we'll use dummy data
-if (!isset($_SESSION['cart']) || empty($_SESSION['cart'])) {
-    // Sample cart data for demonstration
-    $_SESSION['cart'] = [
-        ['id' => 1, 'name' => 'Product 1', 'price' => 29.99, 'quantity' => 1],
-        ['id' => 2, 'name' => 'Product 2', 'price' => 49.99, 'quantity' => 2]
-    ];
+// Check if order ID is provided
+if (!isset($_GET['order_id'])) {
+    header('Location: checkout.php?error=invalid_order');
+    exit();
 }
 
-// Calculate total, subtotal and item count
-foreach ($_SESSION['cart'] as $item) {
-    $subtotal += $item['price'] * $item['quantity'];
-    $item_count += $item['quantity'];
-    $items[] = $item;
-}
+$order_id = $_GET['order_id'];
 
-// Calculate shipping (example: flat rate of $5.99)
-$shipping = 5.99;
+try {
+    // Get order details
+    $stmt = $conn->prepare("
+        SELECT o.*, u.username, u.email 
+        FROM orders o 
+        JOIN users u ON o.user_id = u.id 
+        WHERE o.id = ? AND o.user_id = ?
+    ");
+    $stmt->execute([$order_id, $_SESSION['user_id']]);
+    $order = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// Calculate tax (example: 8.5%)
-$tax_rate = 0.085;
-$tax = $subtotal * $tax_rate;
-
-// Calculate total
-$total = $subtotal + $shipping + $tax;
-
-// Process form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validate form data
-    $first_name = filter_input(INPUT_POST, 'first_name', FILTER_SANITIZE_STRING);
-    $last_name = filter_input(INPUT_POST, 'last_name', FILTER_SANITIZE_STRING);
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $address = filter_input(INPUT_POST, 'address', FILTER_SANITIZE_STRING);
-    $city = filter_input(INPUT_POST, 'city', FILTER_SANITIZE_STRING);
-    $zip = filter_input(INPUT_POST, 'zip', FILTER_SANITIZE_STRING);
-    $card_number = filter_input(INPUT_POST, 'card_number', FILTER_SANITIZE_STRING);
-    $card_expiry = filter_input(INPUT_POST, 'card_expiry', FILTER_SANITIZE_STRING);
-    $card_cvv = filter_input(INPUT_POST, 'card_cvv', FILTER_SANITIZE_STRING);
-    
-    // Validate fields
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error_message = "Invalid email format";
-    } else {
-        // Create order in database
-        $order_date = date("Y-m-d H:i:s");
-        
-        // Insert order into database
-        $sql = "INSERT INTO order_details (first_name, last_name, email, address, city, zip, order_date, subtotal, tax, shipping, total_amount) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssssssdddd", $first_name, $last_name, $email, $address, $city, $zip, $order_date, $subtotal, $tax, $shipping, $total);
-        
-        if ($stmt->execute()) {
-            $order_id = $conn->insert_id;
-            
-            // Insert order items
-            $item_sql = "INSERT INTO order_items (order_id, product_id, quantity, price) 
-                        VALUES (?, ?, ?, ?, ?)";
-            
-            $item_stmt = $conn->prepare($item_sql);
-            
-            foreach ($items as $item) {
-                $item_stmt->bind_param("iisid", $order_id, $item['id'], $item['name'], $item['quantity'], $item['price']);
-                $item_stmt->execute();
-            }
-            
-            // Clear cart
-            $_SESSION['cart'] = [];
-            
-            $success_message = "Order placed successfully! Your order ID is #" . $order_id;
-        } else {
-            $error_message = "Error placing order: " . $conn->error;
-        }
+    if (!$order) {
+        header('Location: checkout.php?error=order_not_found');
+        exit();
     }
+
+    // Get order items
+    $stmt = $conn->prepare("
+        SELECT oi.*, p.name, p.image_url 
+        FROM order_items oi 
+        JOIN products p ON oi.product_id = p.id 
+        WHERE oi.order_id = ?
+    ");
+    $stmt->execute([$order_id]);
+    $order_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    error_log("Error in complete_order.php: " . $e->getMessage());
+    header('Location: checkout.php?error=system_error');
+    exit();
 }
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation - Marketplace</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <style>
+        .order-confirmation {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+        .success-icon {
+            color: #28a745;
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+        .order-details {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+        .product-image {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <?php include 'includes/header.php'; ?>
+
+    <div class="container">
+        <div class="order-confirmation">
+            <div class="text-center">
+                <i class="bi bi-check-circle-fill success-icon"></i>
+                <h1 class="mb-4">Order Confirmed!</h1>
+                <p class="lead">Thank you for your purchase. Your order has been successfully placed.</p>
+            </div>
+
+            <div class="order-details">
+                <h3>Order Details</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Order Number:</strong> #<?php echo $order_id; ?></p>
+                        <p><strong>Date:</strong> <?php echo date('F j, Y', strtotime($order['created_at'])); ?></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Status:</strong> <span class="badge bg-success">Paid</span></p>
+                        <p><strong>Payment Method:</strong> <?php echo htmlspecialchars($order['payment_method']); ?></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($order_items as $item): ?>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="<?php echo htmlspecialchars($item['image_url']); ?>" 
+                                         alt="<?php echo htmlspecialchars($item['name']); ?>" 
+                                         class="product-image me-3">
+                                    <div>
+                                        <h6 class="mb-0"><?php echo htmlspecialchars($item['name']); ?></h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><?php echo $item['quantity']; ?></td>
+                            <td>$<?php echo number_format($item['price'], 2); ?></td>
+                            <td>$<?php echo number_format($item['price'] * $item['quantity'], 2); ?></td>
+                        </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="text-end"><strong>Subtotal:</strong></td>
+                            <td>$<?php echo number_format($order['total_amount'], 2); ?></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-end"><strong>Tax:</strong></td>
+                            <td>$<?php echo number_format($order['total_amount'] * 0.1, 2); ?></td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                            <td><strong>$<?php echo number_format($order['total_amount'] * 1.1, 2); ?></strong></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+
+            <div class="text-center mt-4">
+                <a href="index.php" class="btn btn-primary">Continue Shopping</a>
+                <a href="orders.php" class="btn btn-outline-primary ms-2">View All Orders</a>
+            </div>
+        </div>
+    </div>
+
+    <?php include 'includes/footer.php'; ?>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

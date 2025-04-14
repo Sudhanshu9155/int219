@@ -1,6 +1,4 @@
 <?php
-session_start();
-
 $servername = "127.0.0.1";
 $username = "root";
 $password_db = "";
@@ -100,12 +98,6 @@ $tax = $subtotal * $tax_rate;
 // Calculate total
 $total = $subtotal + $shipping + $tax;
 
-// Check for error messages from process_checkout.php
-if (isset($_SESSION['checkout_error'])) {
-    $error_message = $_SESSION['checkout_error'];
-    unset($_SESSION['checkout_error']);
-}
-
 // Process form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['checkout'])) {
     // Get form data
@@ -158,65 +150,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['checkout'])) {
             $insert_stmt->close();
         }
         $check_stmt->close();
-    } else {
-        // For guest users, use a placeholder user_id
-        $user_id = 'guest';
     }
     
-    // Create order in database
-    $order_sql = "INSERT INTO order_details (user_id, total) VALUES (?, ?)";
-    $order_stmt = $conn->prepare($order_sql);
-    $order_stmt->bind_param("sd", $user_id, $total);
+    // Here you would add code to create order in the database
+    // For now, just show success message
+    $success_message = "Order processed successfully!";
     
-    if ($order_stmt->execute()) {
-        $order_id = $conn->insert_id;
-        
-        // Insert order items
-        $item_sql = "INSERT INTO order_items (order_id, product_id, quantity) VALUES (?, ?, ?)";
-        $item_stmt = $conn->prepare($item_sql);
-        
-        foreach ($items as $item) {
-            $product_id = $item['id'];
-            $quantity = $item['quantity'];
-            
-            $item_stmt->bind_param("iii", $order_id, $product_id, $quantity);
-            $item_stmt->execute();
-        }
-        $item_stmt->close();
-        
-        // Insert payment details (assuming cash on delivery for now)
-        $payment_sql = "INSERT INTO payment_details (order_id, amount, provider, status) VALUES (?, ?, ?, ?)";
-        $payment_stmt = $conn->prepare($payment_sql);
-        $amount = $total;
-        $provider = "Cash on Delivery";
-        $status = "Pending";
-        
-        $payment_stmt->bind_param("idss", $order_id, $amount, $provider, $status);
-        $payment_stmt->execute();
-        $payment_id = $conn->insert_id;
-        $payment_stmt->close();
-        
-        // Update order with payment_id
-        $update_order_sql = "UPDATE order_details SET payment_id = ? WHERE id = ?";
-        $update_order_stmt = $conn->prepare($update_order_sql);
-        $update_order_stmt->bind_param("ii", $payment_id, $order_id);
-        $update_order_stmt->execute();
-        $update_order_stmt->close();
-        
-        // Clear cart
-        $_SESSION['cart'] = [];
-        
-        // Set success message
-        $success_message = "Order placed successfully! Your order ID is #" . $order_id;
-        
-        // Redirect to order confirmation page
-        header("Location: complete_order.php?order_id=" . $order_id);
-        exit();
-    } else {
-        $error_message = "Error placing order: " . $conn->error;
-    }
-    
-    $order_stmt->close();
+    // Optionally, clear the cart after successful order
+    // $_SESSION['cart'] = [];
 }
 ?>
 
@@ -255,34 +196,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['checkout'])) {
                     <input type="text" name="fname" id="fname" class="border-gray-500 rounded-xl shadow border
                     -2 w-full p-2 flex-1/2 focus:border-green-500 focus:outline-none" required placeholder="First Name" value="<?php echo $fname;?>"/>
                     <input type="text" name="lname" id="lname" class="border-gray-500 rounded-xl shadow border
-                    -2 w-full p-2 flex-1/2 focus:border-green-500 focus:outline-none" required placeholder="Last Name" value="<?php echo $lname;?>"/>
+                    -2 w-full p-2 flex-1/2 focus:border-green-500 focus:outline-none" required placeholder="Last Name" />
                 </div>
                 <div class="mb-4 gap-[10px]">
                     <input type="email" name="email" id="email" class="border-gray-500 rounded-xl shadow border
-                    -2 w-full p-2 focus:border-green-500 focus:outline-none" required placeholder="Email" value="<?php echo $email;?>"/>
+                    -2 w-full p-2 focus:border-green-500 focus:outline-none" required placeholder="Email" />
                 </div>
                 <div class="mb-4 gap-[10px]">
                     <input type="text" name="phone" id="phone" class="border-gray-500 rounded-xl shadow border
-                    -2 w-full p-2 focus:border-green-500 focus:outline-none" required placeholder="Phone Number" value="<?php echo $phone;?>"/>
+                    -2 w-full p-2 focus:border-green-500 focus:outline-none" required placeholder="Phone Number" />
                 </div>
 
                 <span class="text-[20px] text-gray-600">Address: </span>
                 <div class="mb-4 gap-[50px] mt-[20px]">
                     <input type="text" name="street-address" id="street-address" class="border-gray-500 rounded-xl shadow-sm focus:shadow-md border
-                    -2 w-full p-2 focus:border-green-500 focus:outline-none" required placeholder="Street, Apartment" value="<?php echo $street_address;?>"/>
+                    -2 w-full p-2 focus:border-green-500 focus:outline-none" required placeholder="Street, Apartment" />
                     <input type="text" name="address" id="address" class="border-gray-500 rounded-xl shadow-sm focus:shadow-md border
-                    -2 w-full p-2 focus:border-green-500 focus:outline-none mt-[10px]" required placeholder="Address" value="<?php echo $address_line2;?>"/>
+                    -2 w-full p-2 focus:border-green-500 focus:outline-none mt-[10px]" required placeholder="Address" />
 
                     <div class="mb-4 flex gap-[10px] mt-[10px]">
                     <input type="text" name="city" id="city" class="border-gray-500 rounded-xl shadow-sm focus:shadow-md border
-                    -2 w-full p-2 flex-1/2 focus:border-green-500 focus:outline-none" required placeholder="City" value="<?php echo $city;?>"/>
+                    -2 w-full p-2 flex-1/2 focus:border-green-500 focus:outline-none" required placeholder="City" />
                     <input type="text" name="state" id="state" class="border-gray-500 rounded-xl shadow-sm focus:shadow-md border
-                    -2 w-full p-2 flex-1/2 focus:border-green-500 focus:outline-none" required placeholder="State" value="<?php echo $state;?>"/>
+                    -2 w-full p-2 flex-1/2 focus:border-green-500 focus:outline-none" required placeholder="State" />
                     </div>
 
                     <div class="mb-4 flex gap-[10px]">
                     <input type="text" name="zip" id="zip" class="border-gray-500 rounded-xl shadow border
-                    -2 w-full p-2 flex-1/2 focus:border-green-500 focus:outline-none focus:shadow-md" required placeholder="Zip Code" value="<?php echo $zip;?>"/>
+                    -2 w-full p-2 flex-1/2 focus:border-green-500 focus:outline-none focus:shadow-md" required placeholder="Zip Code" />
                     <select name="country" class="bg-transparent border-gray-500 rounded-xl border
                     -2 w-full p-2 flex-1/2 transition duration-300 ease appearance-none cursor-pointer shadow-sm focus:border-green-500 focus:outline-none focus:shadow-md" id="country">
                         <option value="0" label="Select a country ... " selected="selected">Select a country ... </option>
@@ -300,7 +241,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['checkout'])) {
                             <option value="KM" label="Comoros">Comoros</option>
                             <option value="CG" label="Congo - Brazzaville">Congo - Brazzaville</option>
                             <option value="CD" label="Congo - Kinshasa">Congo - Kinshasa</option>
-                            <option value="CI" label="Côte d'Ivoire">Côte d'Ivoire</option>
+                            <option value="CI" label="Côte d’Ivoire">Côte d’Ivoire</option>
                             <option value="DJ" label="Djibouti">Djibouti</option>
                             <option value="EG" label="Egypt">Egypt</option>
                             <option value="GQ" label="Equatorial Guinea">Equatorial Guinea</option>
@@ -552,7 +493,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['checkout'])) {
                     </div>
                 </div>
 
-                <button type="submit" name="checkout" class="bg-green-950 text-white p-3 shadow-green-600 rounded-xl flex gap-2.5">Checkout
+                <button type="submit" class="bg-green-950 text-white p-3 shadow-green-600 rounded-xl flex gap-2.5">Checkout
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e3e3e3"><path d="m560-240-56-58 142-142H160v-80h486L504-662l56-58 240 240-240 240Z"/></svg>
                 </button>
             </form>
@@ -603,3 +544,5 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['checkout'])) {
     <?php include("../footer.php");?>
 </body>
 </html>
+
+

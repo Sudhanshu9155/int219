@@ -757,7 +757,7 @@ if (session_status() == PHP_SESSION_NONE) {
            
         </div>
         <ul class="dropdown-menu-list">
-          <li><a href="#">Orders</a></li>
+          <li><a href="orders.php">Orders</a></li>
           <li><a href="../marketplace/edit_profile.php">Edit Profile</a></li>
 
           <li><a href="#">Saved Addresses</a></li>
