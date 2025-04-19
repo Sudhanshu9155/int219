@@ -1,15 +1,6 @@
 <!-- -- User tables -->
 
 <?php
-
-$whitelist = array(
-    '127.0.0.1',
-    '::1',
-    'localhost'
-);
-
-if(in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
-
 $servername = "127.0.0.1";
 $username = "root";
 $password = "";
@@ -177,7 +168,6 @@ if ($conn->error) {
     die("Error adding foreign key: " . $conn->error);
 }
 
-// echo "Database and tables created successfully";
+echo "Database and tables created successfully";
 $conn->close();
-}
 ?>

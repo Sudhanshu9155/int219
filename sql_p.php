@@ -1,13 +1,5 @@
 <?php
 
-$whitelist = array(
-    '127.0.0.1',
-    '::1',
-    'localhost'
-);
-
-if(in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
-
 $servername = "127.0.0.1";
 $username = "root";
 $password = "";
@@ -76,12 +68,11 @@ $sql = "INSERT IGNORE INTO product (name, image_url, category, `desc`, cost_pric
 ('Battery Powered Sprayer', 'https://5.imimg.com/data5/SELLER/Default/2024/4/406071822/BG/TF/JV/2646725/balwaan-sp-80b-li-ion-battery-sprayer-8l-250x250.jpg', 'Tools', '16L capacity, 8-hour battery life, adjustable nozzle', 3500.00, 3150.00),
 ('Grafting Knife Set', 'https://m.media-amazon.com/images/I/71TkFIbnUfL.jpg', 'Tools', 'Professional 3-piece grafting and pruning knife set', 1500.00, 1275.00),
 ('Manual Seed Drill', 'https://i0.wp.com/kamalagrotech.in/wp-content/uploads/2024/01/33.png?fit=1050%2C1050&ssl=1', 'Tools', 'Precision planting tool with adjustable row spacing', 2800.00, 2520.00),
-('Soil Moisture Meter', 'https://media.diy.com/is/image/KingfisherDigital/sa-products-soil-moisture-meter-garden-soil-humidity-meter-for-outdoor-indoor-plants-plant-watering-indicator-with-probe~5060938981890_04c_MP?$MOB_PREV$&$width=600&$height=600', 'Tools', 'Digital meter for measuring soil moisture, pH and sunlight', 1200.00, 1020.00);
+('Soil Moisture Meter', 'https://media.diy.com/is/image/KingfisherDigital/sa-products-soil-moisture-meter-garden-soil-humidity-meter-for-outdoor-indoor-plants-plant-watering-indicator-with-probe~5060938981890_04c_MP?\$MOB_PREV$&\$width=600&\$height=600', 'Tools', 'Digital meter for measuring soil moisture, pH and sunlight', 1200.00, 1020.00);
 ";
 if ($conn->query($sql) === FALSE) {
     die("Error creating user table: " . $conn->error);
 }
 
 $conn->close();
-}
 ?>

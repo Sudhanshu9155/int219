@@ -1,74 +1,4 @@
 <?php
-session_start();
-
-// Check if user is logged in
-if (!isset($_SESSION['user_id'])) {
-    header('Location: marketlogin.php?redirect=orders');
-    exit();
-}
-
-require_once '../sql.php';
-
-// Get user ID from session
-$user_id = $_SESSION['user_id'];
-
-// Initialize variables
-$orders = [];
-$error_message = "";
-
-// Connect to database
-$servername = "127.0.0.1";
-$username = "root";
-$password = "";
-$dbname = "int219";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Get all orders for the user
-$sql = "SELECT od.*, pd.provider, pd.status 
-        FROM order_details od 
-        LEFT JOIN payment_details pd ON od.payment_id = pd.id 
-        WHERE od.user_id = ? 
-        ORDER BY od.created_at DESC";
-
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("s", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-
-if ($result->num_rows > 0) {
-    while ($row = $result->fetch_assoc()) {
-        // Get order items for each order
-        $order_id = $row['id'];
-        $items_sql = "SELECT oi.*, p.name, p.image_url 
-                      FROM order_items oi 
-                      JOIN product p ON oi.product_id = p.id 
-                      WHERE oi.order_id = ?";
-        
-        $items_stmt = $conn->prepare($items_sql);
-        $items_stmt->bind_param("i", $order_id);
-        $items_stmt->execute();
-        $items_result = $items_stmt->get_result();
-        
-        $order_items = [];
-        while ($item = $items_result->fetch_assoc()) {
-            $order_items[] = $item;
-        }
-        
-        $row['items'] = $order_items;
-        $orders[] = $row;
-    }
-} else {
-    $error_message = "You haven't placed any orders yet.";
-}
-
-$stmt->close();
-$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -130,7 +60,75 @@ $conn->close();
     </style>
 </head>
 <body class="bg-light">
-    <?php include '../header.php'; ?>
+    <?php include '../header.php'; 
+    
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header('Location: marketlogin.php?redirect=orders');
+    exit();
+}
+
+
+// Get user ID from session
+$user_id = $_SESSION['user_id'];
+
+// Initialize variables
+$orders = [];
+$error_message = "";
+
+// Connect to database
+$servername = "127.0.0.1";
+$username = "root";
+$password = "";
+$dbname = "int219";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Get all orders for the user
+$sql = "SELECT od.*, pd.provider, pd.status 
+        FROM order_details od 
+        LEFT JOIN payment_details pd ON od.payment_id = pd.id 
+        WHERE od.user_id = ? 
+        ORDER BY od.created_at DESC";
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        // Get order items for each order
+        $order_id = $row['id'];
+        $items_sql = "SELECT oi.*, p.name, p.image_url 
+                      FROM order_items oi 
+                      JOIN product p ON oi.product_id = p.id 
+                      WHERE oi.order_id = ?";
+        
+        $items_stmt = $conn->prepare($items_sql);
+        $items_stmt->bind_param("i", $order_id);
+        $items_stmt->execute();
+        $items_result = $items_stmt->get_result();
+        
+        $order_items = [];
+        while ($item = $items_result->fetch_assoc()) {
+            $order_items[] = $item;
+        }
+        
+        $row['items'] = $order_items;
+        $orders[] = $row;
+    }
+} else {
+    $error_message = "You haven't placed any orders yet.";
+}
+
+$stmt->close();
+$conn->close();?>
 
     <div class="container py-5">
         <h1 class="mb-4">My Orders</h1>
