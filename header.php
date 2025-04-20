@@ -2,12 +2,34 @@
 if (session_status() == PHP_SESSION_NONE) {
   session_start();
 }
+unset($_SESSION['cart']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Update cart count
+    function updateCartCount() {
+        const cartCount = document.getElementById('cartCount');
+        if (cartCount) {
+            cartCount.textContent = '<?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?>';
+        }
+    }
+    
+    // Call updateCartCount initially
+    updateCartCount();
+    
+    // Update cart count when cart is modified
+    window.addEventListener('storage', function(e) {
+        if (e.key === 'cart') {
+            updateCartCount();
+        }
+    });
+});
+</script>
   <style>
     * {
       margin: 0;
@@ -770,7 +792,7 @@ if (session_status() == PHP_SESSION_NONE) {
       <circle cx="9" cy="19" r="1.5" stroke="#333"/>
       <circle cx="17" cy="19" r="1.5" stroke="#333"/>
     </svg>
-    <span class="cart-count" id="cartCount">0</span>
+    <span class="cart-count" id="cartCount"><?php echo isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0; ?></span>
   </button>
     </div>
   </div>
@@ -875,6 +897,16 @@ if (session_status() == PHP_SESSION_NONE) {
   <div class="cart-items" id="cart-items">
     <!-- Cart items will be dynamically added here -->
     <!-- Example item structure: -->
+    <?php if(isset($_SESSION['cart']) && !empty($_SESSION['cart'])): ?>
+      <?php else: ?>
+        <div class="cart-empty" id="cart-empty" style="display: block;">
+            <div class="empty-cart-icon">
+                <i class="fas fa-shopping-basket"></i>
+            </div>
+            <p>Your cart is empty</p>
+            <a href="../marketplace/products.php" class="continue-shopping">Continue Shopping</a>
+        </div>
+    <?php endif; ?>
     <div class="cart-item">
       <div class="cart-item-image">
         <img src="images/products/tomatoes.jpg" alt="Organic Tomatoes">

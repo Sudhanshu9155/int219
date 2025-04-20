@@ -1,8 +1,9 @@
 <?php
 session_start();
 require_once '../config/database.php';
-unset($_SESSION['cart']); // clear cart after checkout
-
+$_SESSION['cart'] = array();
+session_write_close();
+session_start();
 // Check if order ID is provided
 if (!isset($_GET['order_id'])) {
     header('Location: checkout.php?error=invalid_order');
@@ -79,6 +80,15 @@ try {
             border-radius: 4px;
         }
     </style>
+<script>
+    // Update cart count to 0
+    document.addEventListener('DOMContentLoaded', function() {
+        const cartCount = document.getElementById('cartCount');
+        if (cartCount) {
+            cartCount.textContent = '0';
+        }
+    });
+</script>
 </head>
 <body class="bg-light">
 
