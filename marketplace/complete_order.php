@@ -98,7 +98,7 @@ try {
                         <p><strong>Date:</strong> <?php echo date('F j, Y', strtotime($order['created_at'])); ?></p>
                     </div>
                     <div class="col-md-6">
-                        <p><strong>Status:</strong> <span class="badge bg-success">Paid</span></p>
+                        <p><strong>Status:</strong> <span class="badge bg-success">Processing</span></p>
                         <p><strong>Payment Method:</strong> <?php echo htmlspecialchars($order['payment_method']); ?></p>
                     </div>
                 </div>
@@ -151,7 +151,7 @@ try {
             </div>
 
             <div class="text-center mt-4">
-                <a href="index.php" class="btn btn-primary">Continue Shopping</a>
+                <a href="products.php" class="btn btn-primary">Continue Shopping</a>
                 <a href="orders.php" class="btn btn-outline-primary ms-2">View All Orders</a>
             </div>
         </div>
