@@ -696,7 +696,7 @@ if (session_status() == PHP_SESSION_NONE) {
 </head>
 <body>
   <!-- Announcement Bar -->
-  <div class="announcement-bar">
+  <!-- <div class="announcement-bar">
     <div class="announcement-content">
       <div class="announcement-item">Special Offer: Get 25% Discount Code 'FRESH25'</div>
       <span class="star-icon">★</span>
@@ -706,7 +706,7 @@ if (session_status() == PHP_SESSION_NONE) {
       <span class="star-icon">★</span>
       <div class="announcement-item">Special Offer: Get 25% Discount Code 'FRESH25'</div>
     </div>
-  </div>
+  </div> -->
   <header>
   <!-- Main Header -->
   <div class="header-main">
