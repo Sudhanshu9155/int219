@@ -105,10 +105,10 @@ if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         // Get order items for each order
         $order_id = $row['id'];
-        $items_sql = "SELECT oi.*, p.name, p.image_url 
-                      FROM order_items oi 
-                      JOIN product p ON oi.product_id = p.id 
-                      WHERE oi.order_id = ?";
+        $items_sql = "SELECT oi.*, p.name, p.image_url, p.selling_price 
+        FROM order_items oi 
+        JOIN product p ON oi.product_id = p.id 
+        WHERE oi.order_id = ?";
         
         $items_stmt = $conn->prepare($items_sql);
         $items_stmt->bind_param("i", $order_id);
@@ -204,15 +204,17 @@ $conn->close();?>
                                                 </div>
                                             </td>
                                             <td><?php echo $item['quantity']; ?></td>
-                                            <td>₹<?php echo number_format($item['price'] ?? 0, 2); ?></td>
-                                            <td>₹<?php echo number_format(($item['price'] ?? 0) * $item['quantity'], 2); ?></td>
-                                        </tr>
+                                            <td>₹<?php echo number_format($item['selling_price'] ?? 0, 2); ?></td>
+                                            <td>₹<?php echo number_format(($item['selling_price'] ?? 0) * $item['quantity'], 2); ?></td>
+                                            </tr>
                                     <?php endforeach; ?>
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <td colspan="3" class="text-end"><strong>Total:</strong></td>
-                                        <td><strong>₹<?php echo number_format($order['total'], 2); ?></strong></td>
+                                        <td><strong>₹<?php echo number_format(array_sum(array_map(function($item) { 
+                                                        return $item['selling_price'] * $item['quantity']; 
+                                                    }, $order['items'])), 2); ?></strong></td>
                                     </tr>
                                 </tfoot>
                             </table>
